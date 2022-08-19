@@ -42,6 +42,10 @@ export default class View {
       this.dragging.element.style.top = target.x + "px";
       this.dragging.element.style.zIndex = target.element.style.zIndex + 1;
       this.dragging.element.classList.remove("dragging");
+      this.targets.forEach((target)=>{
+        target.element.classList.remove("allowed");
+        target.element.classList.remove("disallowed");
+      })
       this.dragging = undefined;
     }
   }
