@@ -8,11 +8,9 @@ class Card {
     this.element.ondragstart = (e: DragEvent) => {
       view.setDragging(this);
       e.dataTransfer.setDragImage(this.element,0,0);
-      this.element.style.opacity = "0.2";
     };
     this.element.ondragend = (e: DragEvent) => {
       view.setDragging(undefined);
-      this.element.style.opacity = "1.0";
     };
     this.element.classList.add("card");
     this.element.classList.add(colour);
@@ -47,15 +45,16 @@ class Target {
       const card = view.getDraggedCard();
       console.log("card : ", card);
       if (card && card.colour === this.colour) {
-        this.element.style.opacity = "1.0";
         this.element.classList.add("allowed");
+      }
+      else{
+        this.element.classList.add("disallowd");
       }
     };
     this.element.ondragleave = (e: DragEvent) => {
       e.preventDefault();
-      this.element.style.opacity = "1.0";
       this.element.classList.remove("allowed");
-      this.element.style.cursor = "default";
+      this.element.classList.remove("disallowed");
       return false;
     };
     this.element.ondrop = (e: DragEvent) => {
@@ -104,14 +103,17 @@ class View {
   }
   dropCardOn(target: Target) {
     if (this.dragging) {
-      this.dragging.element.style.left = target.x + "px";
-      this.dragging.element.style.top = target.y + "px";
+      this.dragging.element.style.left = target.y + "px";
+      this.dragging.element.style.top = target.x + "px";
       this.dragging.element.style.zIndex = target.element.style.zIndex + 1;
+      this.dragging.element.classList.remove("dragging");
+      this.dragging = undefined;
     }
   }
 }
 
 const view = new View();
 view.createCard("red");
+view.createTarget(100,700,"red");
 view.createTarget(300, 300, "red");
 view.createTarget(200,600,"blue");
