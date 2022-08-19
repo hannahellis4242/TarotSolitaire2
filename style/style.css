@@ -39,13 +39,13 @@ body{
 }
 
 .allowed{
-    border: solid white 2px;
+    background-color: white;
     cursor: pointer;
     opacity: 1.0;
 }
 
 .disallowed{
-    border: solid red 2px;
+    background-color: black;
     cursor: no-drop;
     opacity: 1.0;
 }

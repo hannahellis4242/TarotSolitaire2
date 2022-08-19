@@ -2,8 +2,12 @@ import View from "./View";
 
 (() => {
   const view = new View();
-  view.createCard("red");
-  view.createTarget(100, 700, "red");
-  view.createTarget(300, 300, "red");
-  view.createTarget(200, 600, "blue");
+  for (let i = 0; i < 3; ++i) {
+    view.createCard("red");
+    view.createCard("green");
+    view.createCard("blue");
+    view.createTarget(200, 100 + i * 200, "red");
+    view.createTarget(300, 100 + i * 200, "green");
+    view.createTarget(400, 100 + i * 200, "blue");
+  }
 })();

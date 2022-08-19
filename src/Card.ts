@@ -34,8 +34,8 @@ export default class Card {
     }
   }
   setPosition(x: number, y: number,z:number) {
-    this.element.style.left = y + "px";
-    this.element.style.top = x + "px";
+    this.element.style.left = x + "px";
+    this.element.style.top = y + "px";
     this.element.style.zIndex = z.toString();
   }
   canBeDroppedOn(target:Target){

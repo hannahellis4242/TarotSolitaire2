@@ -20,8 +20,8 @@ export default class Target {
     this.element.innerText = colour;
     this.element.classList.add("target");
     this.element.classList.add(colour);
-    this.element.style.top = x + "px";
-    this.element.style.left = y + "px";
+    this.element.style.top = y + "px";
+    this.element.style.left = x + "px";
     this.element.ondragover = (e: DragEvent) => {
       e.preventDefault();
       const card = view.getSelected();
