@@ -4,8 +4,8 @@ body{
 
 .card{
     position: absolute;
-    width: 200px;
-    height: 300px;
+    aspect-ratio: 7/12;
+    height: 10%;
     border: solid black 5px;
     opacity: 1.0;
     cursor: grab;
@@ -30,11 +30,11 @@ body{
 
 .target{
     position: absolute;
-    width: 200px;
-    height: 300px;
+    aspect-ratio: 7/12;
+    height: 10%;
     border: dashed black 2px;
     text-align: center;
-    font-size: xx-large;
+    font-size: large;
     opacity: 0.6;
 }
 
