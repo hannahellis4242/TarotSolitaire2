@@ -1,13 +1,20 @@
 import { Colour } from "./Colour";
 import View from "./View";
 
+export enum TargetState {
+  Inactive,
+  Allowed,
+  Disallowed,
+}
+
 export default class Target {
-  element: HTMLElement;
+  private element: HTMLElement;
   constructor(
     public x: number,
     public y: number,
     public colour: Colour,
-    view: View
+    view: View,
+    parent: HTMLElement
   ) {
     this.element = document.createElement("div");
     this.element.innerText = colour;
@@ -17,35 +24,50 @@ export default class Target {
     this.element.style.left = y + "px";
     this.element.ondragover = (e: DragEvent) => {
       e.preventDefault();
-      const card = view.getDraggedCard();
-      if (card && card.colour === this.colour) {
-        this.element.style.cursor = "poiner";
+      const card = view.getSelected();
+      if (card.canBeDroppedOn(this)) {
+        this.setState(TargetState.Allowed);
       } else {
-        this.element.style.cursor = "no-drop";
+        this.setState(TargetState.Disallowed);
       }
     };
     this.element.ondragenter = (e: DragEvent) => {
       e.preventDefault();
-      const card = view.getDraggedCard();
-      console.log("card : ", card);
-      if (card && card.colour === this.colour) {
-        this.element.classList.add("allowed");
+      const card = view.getSelected();
+      if (card.canBeDroppedOn(this)) {
+        this.setState(TargetState.Allowed);
       } else {
-        this.element.classList.add("disallowd");
+        this.setState(TargetState.Disallowed);
       }
     };
     this.element.ondragleave = (e: DragEvent) => {
       e.preventDefault();
-      this.element.classList.remove("allowed");
-      this.element.classList.remove("disallowed");
-      return false;
+      this.setState(TargetState.Inactive);
     };
     this.element.ondrop = (e: DragEvent) => {
       e.preventDefault();
-      const card = view.getDraggedCard();
-      if (view.canDropOn(this)) {
-        view.dropCardOn(this);
+      const card = view.getSelected();
+      if (card && card.canBeDroppedOn(this)) {
+        card.dropOn(this);
+        view.setSelected();
       }
+      this.setState(TargetState.Inactive);
     };
+    parent.appendChild(this.element);
+  }
+  setState(state: TargetState) {
+    switch (state) {
+      case TargetState.Inactive:
+        this.element.classList.remove("allowed");
+        this.element.classList.remove("disallowed");
+        break;
+      case TargetState.Allowed:
+        this.element.classList.add("allowed");
+        this.element.classList.remove("disallowed");
+        break;
+      case TargetState.Disallowed:
+        this.element.classList.remove("allowed");
+        this.element.classList.add("disallowed");
+    }
   }
 }

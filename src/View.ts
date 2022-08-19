@@ -1,6 +1,6 @@
-import Card from "./Card";
+import Card, { CardState } from "./Card";
 import { Colour } from "./Colour";
-import Target from "./Target";
+import Target, { TargetState } from "./Target";
 
 export default class View {
   private cards: Card[];
@@ -12,41 +12,23 @@ export default class View {
     this.dragging = undefined;
   }
   createCard(colour: Colour) {
-    const card = new Card(`${this.cards.length + 1}`.toString(), colour, this);
+    const card = new Card(colour, this, document.body);
     this.cards.push(card);
-    document.body.appendChild(card.element);
   }
   createTarget = (x: number, y: number, colour: Colour) => {
-    const target = new Target(x, y, colour, this);
+    const target = new Target(x, y, colour, this, document.body);
     this.targets.push(target);
-    document.body.appendChild(target.element);
   };
-  setDragging(card: Card | undefined) {
+  setSelected(card?: Card) {
     if (this.dragging) {
-      this.dragging.element.classList.remove("dragging");
+      this.dragging.setState(CardState.Unselected);
     }
     this.dragging = card;
-    if (card) {
-      card.element.classList.add("dragging");
-    }
-  }
-  getDraggedCard(): Card | undefined {
-    return this.dragging;
-  }
-  canDropOn(target: Target) {
-    return this.dragging && this.dragging.colour === target.colour;
-  }
-  dropCardOn(target: Target) {
     if (this.dragging) {
-      this.dragging.element.style.left = target.y + "px";
-      this.dragging.element.style.top = target.x + "px";
-      this.dragging.element.style.zIndex = target.element.style.zIndex + 1;
-      this.dragging.element.classList.remove("dragging");
-      this.targets.forEach((target)=>{
-        target.element.classList.remove("allowed");
-        target.element.classList.remove("disallowed");
-      })
-      this.dragging = undefined;
+      this.dragging.setState(CardState.Selected);
     }
+  }
+  getSelected(): Card | undefined {
+    return this.dragging;
   }
 }
