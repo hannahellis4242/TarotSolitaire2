@@ -1,0 +1,41 @@
+body{
+    background-color: lightseagreen;
+}
+
+.card{
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    border: solid black 5px;
+    cursor: grab;
+}
+
+.dragging{
+    cursor: grabbing;
+}
+
+.red{
+    background-color: red;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.green{
+    background-color: green;
+}
+
+.target{
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    border: dashed black 2px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.allowed{
+    border: solid white 5px;
+    cursor: pointer;
+}
