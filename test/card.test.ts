@@ -1,18 +1,11 @@
 type Suit = "Trump" | "Wands" | "Cups" | "Swords" | "Penticles";
+const suits: Suit[] = ["Trump", "Wands", "Cups", "Swords", "Penticles"];
 class Card {
   private suit_: Suit;
   constructor(public id: number) {
-    if (id < 22) {
-      this.suit_ = "Trump";
-    } else if (id < 22 + 14) {
-      this.suit_ = "Wands";
-    } else if (id < 22 + 2 * 14) {
-      this.suit_ = "Cups";
-    } else if (id < 22 + 3 * 14) {
-      this.suit_ = "Swords";
-    } else {
-      this.suit_ = "Penticles";
-    }
+    const value = Math.floor((id - 22) / 14);
+    const suitsIndex = value < 0 ? 0 : value + 1;
+    this.suit_ = suits[suitsIndex];
   }
   suit(): Suit {
     return this.suit_;
