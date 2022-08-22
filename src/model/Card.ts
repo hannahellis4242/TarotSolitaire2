@@ -39,7 +39,7 @@ export type Pip =
   | "Queen"
   | "King";
 
-const pips: Pip[] = [
+const majorPips: Pip[] = [
   "0",
   "I",
   "II",
@@ -62,6 +62,9 @@ const pips: Pip[] = [
   "XIX",
   "XX",
   "XXI",
+];
+
+const minorPips: Pip[] = [
   "Ace",
   "Two",
   "Three",
@@ -78,24 +81,58 @@ const pips: Pip[] = [
   "King",
 ];
 
+const pips: Pip[] = majorPips.concat(minorPips);
+
+const majorPipsToPipIndex = majorPips.map((x, i) => [x, i]);
+const minorPipsToPipIndex = minorPips.map((x, i) => [x, i]);
+
+const getPipIndex = (suit: Suit, pip: Pip) => {
+  if (suit === "Major") {
+    return majorPipsToPipIndex.find(([x, i]) => x === pip)[1];
+  } else {
+    return minorPipsToPipIndex.find(([x, i]) => x === pip)[1];
+  }
+};
+
+export type Colour = "Colourless" | "Red" | "Black";
+
 export default class Card {
-  private suit_: Suit;
-  private pip_: Pip;
+  suit: Suit;
+  pip: Pip;
+  colour: Colour;
+  private pipIndex: number;
   constructor(public id: number) {
     const value = Math.floor((id - 22) / 14);
     const suitsIndex = value < 0 ? 0 : value + 1;
-    this.suit_ = suits[suitsIndex];
+    this.suit = suits[suitsIndex];
     if (this.id < 22) {
-      this.pip_ = pips[this.id];
+      this.pip = pips[this.id];
+      this.pipIndex = this.id;
     } else {
-      const pipIndex = ((this.id - 22) % 14) + 22;
-      this.pip_ = pips[pipIndex];
+      this.pipIndex = (this.id - 22) % 14;
+      this.pip = minorPips[this.pipIndex];
+    }
+    switch (this.suit) {
+      case "Wands":
+      case "Swords":
+        this.colour = "Black";
+        break;
+      case "Cups":
+      case "Pentacles":
+        this.colour = "Red";
+        break;
+      case "Major":
+        this.colour = "Colourless";
+        break;
     }
   }
-  suit(): Suit {
-    return this.suit_;
-  }
-  pip(): Pip {
-    return this.pip_;
+
+  allowed(child: Card): boolean {
+    return (
+      child.pipIndex + 1 === this.pipIndex &&
+      ((this.colour === child.colour && this.colour === "Colourless") ||
+        (this.colour === "Red" && child.colour === "Black") ||
+        (this.colour === "Black" && child.colour === "Red"))
+    );
   }
 }

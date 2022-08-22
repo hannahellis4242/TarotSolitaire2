@@ -82,24 +82,104 @@ const expected = [
 ];
 
 describe("Card", () => {
-  describe("Card.suit()", () => {
-    new Array(78)
-      .fill(0)
-      .map((_, index) => new Card(index))
-      .forEach((card) => {
-        test(`a card with id ${card.id} should have the suit of ${
-          expected[card.id].suit
-        }`, () => {
-          expect(card.suit()).toBe(expected[card.id].suit);
-        });
+  const majors = new Array(22).fill(0).map((_, i) => new Card(i));
+  const wands = new Array(14).fill(0).map((_, i) => new Card(i + 22));
+  const cups = new Array(14).fill(0).map((_, i) => new Card(i + 22 + 14));
+  const swords = new Array(14).fill(0).map((_, i) => new Card(i + 22 + 2 * 14));
+  const pentacles = new Array(14)
+    .fill(0)
+    .map((_, i) => new Card(i + 22 + 3 * 14));
+  const all = majors
+    .concat(wands)
+    .concat(cups)
+    .concat(swords)
+    .concat(pentacles);
+  const allPairs = all.flatMap((parent) => all.map((child) => [parent, child]));
+  describe("Card.suit", () => {
+    all.forEach((card) => {
+      test(`a card with id ${card.id} should have the suit of ${
+        expected[card.id].suit
+      }`, () => {
+        expect(card.suit).toBe(expected[card.id].suit);
       });
+    });
   });
-  describe("Card.pip()", () => {
+  describe("Card.pip", () => {
     expected.forEach(({ index, pip }) => {
       test(`a card with an id of ${index} should have pip ${pip}`, () => {
         const card = new Card(index);
-        expect(card.pip()).toBe(pip);
+        expect(card.pip).toBe(pip);
       });
+    });
+  });
+  describe("Card.colour", () => {
+    describe('Major cards are "colourless"', () => {
+      majors.forEach((card) => {
+        test(`card with id ${card.id} should be \"colourless\"`, () => {
+          expect(card.colour).toBe("Colourless");
+        });
+      });
+    });
+    describe('Wand cards are "black"', () => {
+      wands.forEach((card) => {
+        test(`card with id ${card.id} should be \"black\"`, () => {
+          expect(card.colour).toBe("Black");
+        });
+      });
+    });
+    describe('Cup cards are "red"', () => {
+      cups.forEach((card) => {
+        test(`card with id ${card.id} should be \"red\"`, () => {
+          expect(card.colour).toBe("Red");
+        });
+      });
+    });
+    describe('Sword cards are "Black"', () => {
+      swords.forEach((card) => {
+        test(`card with id ${card.id} should be \"Black\"`, () => {
+          expect(card.colour).toBe("Black");
+        });
+      });
+    });
+    describe('Pentacles cards are "Red"', () => {
+      pentacles.forEach((card) => {
+        test(`card with id ${card.id} should be \"Red\"`, () => {
+          expect(card.colour).toBe("Red");
+        });
+      });
+    });
+  });
+  describe("Card.allowed()", () => {
+    test("allowed example Major and a Major", () => {
+      const parent = new Card(1);
+      const child = new Card(0);
+      expect(parent.allowed(child)).toBeTruthy();
+    });
+    test("disallowed example Major and a Major", () => {
+      const parent = new Card(0);
+      const child = new Card(1);
+      expect(parent.allowed(child)).toBeFalsy();
+    });
+    test("disallowed example 2 Major and a Major", () => {
+      const parent = new Card(2);
+      const child = new Card(0);
+      expect(parent.allowed(child)).toBeFalsy();
+    });
+    test("disallowed example Major and a Wand", () => {
+      const parent = new Card(1);
+      const child = wands[0];
+      expect(parent.allowed(child)).toBeFalsy();
+    });
+    test("allowed example Wand and a Cup", () => {
+      const parent = wands[1];
+      const child = cups[0];
+      expect(parent.allowed(child)).toBeTruthy();
+    });
+    const allowedPairs = allPairs.filter(([parent, child]) =>
+      parent.allowed(child)
+    );
+    test("allowed", () => {
+      expect(allowedPairs.length).toBe(21 + 13 * 2 * 4);
     });
   });
 });
