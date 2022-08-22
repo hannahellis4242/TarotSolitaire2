@@ -1,11 +1,14 @@
-type Suit = "Trump" | "Wands";
+type Suit = "Trump" | "Wands" | "Cups";
 class Card {
   private suit_: Suit;
   constructor(public id: number) {
     if (id < 22) {
       this.suit_ = "Trump";
-    } else {
+    } else if(id < 22 +14) {
       this.suit_ = "Wands";
+    }
+    else{
+        this.suit_ = "Cups";
     }
   }
   suit(): Suit {
@@ -22,12 +25,20 @@ describe("Card", () => {
         expect(card.suit()).toBe("Trump");
       });
     });
-  new Array(13)
+  new Array(14)
     .fill(0)
     .map((_, index) => new Card(index + 22))
     .forEach((card) => {
       test(`a card with id ${card.id} should have the suit of Wands`, () => {
         expect(card.suit()).toBe("Wands");
+      });
+    });
+  new Array(14)
+    .fill(0)
+    .map((_, index) => new Card(index + 22 + 14))
+    .forEach((card) => {
+      test(`a card with id ${card.id} should have the suit of Cups`, () => {
+        expect(card.suit()).toBe("Cups");
       });
     });
 });
