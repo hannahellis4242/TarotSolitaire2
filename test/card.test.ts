@@ -1,3 +1,5 @@
+import Card from "../src/model/Card";
+
 const expected = [
   { index: 0, pip: "0", name: "The Fool", suit: "Major" },
   { index: 1, pip: "I", name: "The Magician", suit: "Major" },
@@ -78,105 +80,6 @@ const expected = [
   { index: 76, pip: "Queen", suit: "Pentacles" },
   { index: 77, pip: "King", suit: "Pentacles" },
 ];
-
-type Suit = "Major" | "Wands" | "Cups" | "Swords" | "Pentacles";
-const suits: Suit[] = ["Major", "Wands", "Cups", "Swords", "Pentacles"];
-
-export type Pip =
-  | "0"
-  | "I"
-  | "II"
-  | "III"
-  | "IV"
-  | "V"
-  | "VI"
-  | "VII"
-  | "VIII"
-  | "IX"
-  | "X"
-  | "XI"
-  | "XII"
-  | "XIII"
-  | "XIV"
-  | "XV"
-  | "XVI"
-  | "XVII"
-  | "XVIII"
-  | "XIX"
-  | "XX"
-  | "XXI"
-  | "Ace"
-  | "Two"
-  | "Three"
-  | "Four"
-  | "Five"
-  | "Six"
-  | "Seven"
-  | "Eight"
-  | "Nine"
-  | "Ten"
-  | "Page"
-  | "Knight"
-  | "Queen"
-  | "King";
-
-const pips:Pip[] = [
-  "0",
-  "I",
-  "II",
-  "III",
-  "IV",
-  "V",
-  "VI",
-  "VII",
-  "VIII",
-  "IX",
-  "X",
-  "XI",
-  "XII",
-  "XIII",
-  "XIV",
-  "XV",
-  "XVI",
-  "XVII",
-  "XVIII",
-  "XIX",
-  "XX",
-  "XXI",
-  "Ace",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-  "Seven",
-  "Eight",
-  "Nine",
-  "Ten",
-  "Page",
-  "Knight",
-  "Queen",
-  "King",
-];
-
-class Card {
-  private suit_: Suit;
-  constructor(public id: number) {
-    const value = Math.floor((id - 22) / 14);
-    const suitsIndex = value < 0 ? 0 : value + 1;
-    this.suit_ = suits[suitsIndex];
-  }
-  suit(): Suit {
-    return this.suit_;
-  }
-  pip(): Pip {
-    if (this.id < 22) {
-      return pips[this.id];
-    }
-    const pipIndex = ((this.id - 22)%14) + 22;
-    return pips[pipIndex];
-  }
-}
 
 describe("Card", () => {
   describe("Card.suit()", () => {
