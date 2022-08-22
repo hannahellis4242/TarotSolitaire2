@@ -23,7 +23,6 @@ const populate = (deck: Card[]): Layout => {
       layout.tableau[i][j] = tableauCards[k];
     });
   layout.pile = deck.slice(45);
-  console.log(layout.tableau);
   return layout;
 };
 
@@ -80,46 +79,55 @@ describe("Layout", () => {
       expect(layout.tableau[4][4]).toBe(deck[14]);
     });
     test("sixth slot in tableau have 6 cards and contains the correct cards", () => {
-        expect(layout.tableau[5].length).toBe(6);
-        expect(layout.tableau[5][0]).toBe(deck[15]);
-        expect(layout.tableau[5][1]).toBe(deck[16]);
-        expect(layout.tableau[5][2]).toBe(deck[17]);
-        expect(layout.tableau[5][3]).toBe(deck[18]);
-        expect(layout.tableau[5][4]).toBe(deck[19]);
-        expect(layout.tableau[5][5]).toBe(deck[20]);
-      });
-      test("seventh slot in tableau have 7 cards and contains the correct cards", () => {
-        expect(layout.tableau[6].length).toBe(7);
-        expect(layout.tableau[6][0]).toBe(deck[21]);
-        expect(layout.tableau[6][1]).toBe(deck[22]);
-        expect(layout.tableau[6][2]).toBe(deck[23]);
-        expect(layout.tableau[6][3]).toBe(deck[24]);
-        expect(layout.tableau[6][4]).toBe(deck[25]);
-        expect(layout.tableau[6][5]).toBe(deck[26]);
-        expect(layout.tableau[6][6]).toBe(deck[27]);
-      });
-      test("eighth slot in tableau have 8 cards and contains the correct cards", () => {
-        expect(layout.tableau[7].length).toBe(8);
-        expect(layout.tableau[7][0]).toBe(deck[28]);
-        expect(layout.tableau[7][1]).toBe(deck[29]);
-        expect(layout.tableau[7][2]).toBe(deck[30]);
-        expect(layout.tableau[7][3]).toBe(deck[31]);
-        expect(layout.tableau[7][4]).toBe(deck[32]);
-        expect(layout.tableau[7][5]).toBe(deck[33]);
-        expect(layout.tableau[7][6]).toBe(deck[34]);
-        expect(layout.tableau[7][7]).toBe(deck[35]);
-      });
-      test("nineth slot in tableau have 9 cards and contains the correct cards", () => {
-        expect(layout.tableau[8].length).toBe(9);
-        expect(layout.tableau[8][0]).toBe(deck[36]);
-        expect(layout.tableau[8][1]).toBe(deck[37]);
-        expect(layout.tableau[8][2]).toBe(deck[38]);
-        expect(layout.tableau[8][3]).toBe(deck[39]);
-        expect(layout.tableau[8][4]).toBe(deck[40]);
-        expect(layout.tableau[8][5]).toBe(deck[41]);
-        expect(layout.tableau[8][6]).toBe(deck[42]);
-        expect(layout.tableau[8][7]).toBe(deck[43]);
-        expect(layout.tableau[8][8]).toBe(deck[44]);
-      });
+      expect(layout.tableau[5].length).toBe(6);
+      expect(layout.tableau[5][0]).toBe(deck[15]);
+      expect(layout.tableau[5][1]).toBe(deck[16]);
+      expect(layout.tableau[5][2]).toBe(deck[17]);
+      expect(layout.tableau[5][3]).toBe(deck[18]);
+      expect(layout.tableau[5][4]).toBe(deck[19]);
+      expect(layout.tableau[5][5]).toBe(deck[20]);
+    });
+    test("seventh slot in tableau have 7 cards and contains the correct cards", () => {
+      expect(layout.tableau[6].length).toBe(7);
+      expect(layout.tableau[6][0]).toBe(deck[21]);
+      expect(layout.tableau[6][1]).toBe(deck[22]);
+      expect(layout.tableau[6][2]).toBe(deck[23]);
+      expect(layout.tableau[6][3]).toBe(deck[24]);
+      expect(layout.tableau[6][4]).toBe(deck[25]);
+      expect(layout.tableau[6][5]).toBe(deck[26]);
+      expect(layout.tableau[6][6]).toBe(deck[27]);
+    });
+    test("eighth slot in tableau have 8 cards and contains the correct cards", () => {
+      expect(layout.tableau[7].length).toBe(8);
+      expect(layout.tableau[7][0]).toBe(deck[28]);
+      expect(layout.tableau[7][1]).toBe(deck[29]);
+      expect(layout.tableau[7][2]).toBe(deck[30]);
+      expect(layout.tableau[7][3]).toBe(deck[31]);
+      expect(layout.tableau[7][4]).toBe(deck[32]);
+      expect(layout.tableau[7][5]).toBe(deck[33]);
+      expect(layout.tableau[7][6]).toBe(deck[34]);
+      expect(layout.tableau[7][7]).toBe(deck[35]);
+    });
+    test("nineth slot in tableau have 9 cards and contains the correct cards", () => {
+      expect(layout.tableau[8].length).toBe(9);
+      expect(layout.tableau[8][0]).toBe(deck[36]);
+      expect(layout.tableau[8][1]).toBe(deck[37]);
+      expect(layout.tableau[8][2]).toBe(deck[38]);
+      expect(layout.tableau[8][3]).toBe(deck[39]);
+      expect(layout.tableau[8][4]).toBe(deck[40]);
+      expect(layout.tableau[8][5]).toBe(deck[41]);
+      expect(layout.tableau[8][6]).toBe(deck[42]);
+      expect(layout.tableau[8][7]).toBe(deck[43]);
+      expect(layout.tableau[8][8]).toBe(deck[44]);
+    });
+    test("rest of the cards are in the pile", () => {
+      expect(layout.pile.length).toBe(33);
+      new Array(33)
+        .fill(0)
+        .map((_, i) => [i, i + 45])
+        .forEach(([i, j]) => {
+          expect(layout.pile[i]).toBe(deck[j]);
+        });
+    });
   });
 });
