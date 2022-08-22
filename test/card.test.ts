@@ -1,5 +1,44 @@
 type Suit = "Trump" | "Wands" | "Cups" | "Swords" | "Penticles";
 const suits: Suit[] = ["Trump", "Wands", "Cups", "Swords", "Penticles"];
+
+export type Pip =
+  | "0"
+  | "I"
+  | "II"
+  | "III"
+  | "IV"
+  | "V"
+  | "VI"
+  | "VII"
+  | "VIII"
+  | "IX"
+  | "X"
+  | "XI"
+  | "XII"
+  | "XIII"
+  | "XIV"
+  | "XV"
+  | "XVI"
+  | "XVII"
+  | "XVIII"
+  | "XIX"
+  | "XX"
+  | "XXI"
+  | "Ace"
+  | "Two"
+  | "Three"
+  | "Four"
+  | "Five"
+  | "Six"
+  | "Seven"
+  | "Eight"
+  | "Nine"
+  | "Ten"
+  | "Page"
+  | "Knight"
+  | "Queen"
+  | "King";
+
 class Card {
   private suit_: Suit;
   constructor(public id: number) {
@@ -9,6 +48,9 @@ class Card {
   }
   suit(): Suit {
     return this.suit_;
+  }
+  pip(): Pip {
+    return "0";
   }
 }
 
@@ -54,5 +96,11 @@ describe("Card", () => {
           expect(card.suit()).toBe("Penticles");
         });
       });
+  });
+  describe("Card.pip()", () => {
+    test("a card with an index of 0 should have pip 0", () => {
+      const card = new Card(0);
+      expect(card.pip()).toBe("0");
+    });
   });
 });
