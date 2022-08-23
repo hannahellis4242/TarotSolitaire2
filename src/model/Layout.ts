@@ -1,4 +1,5 @@
 import Card from "./Card";
+import Move from "./Move";
 
 export default class Layout {
   tableau: Card[][];
@@ -10,6 +11,9 @@ export default class Layout {
     this.foundation = new Array(5).fill(0).map(() => new Array<Card>());
     this.pile = new Array<Card>();
     this.discard = new Array<Card>();
+  }
+  allowed(move: Move): boolean {
+    return true;
   }
 }
 export const populate = (deck: Card[]): Layout => {

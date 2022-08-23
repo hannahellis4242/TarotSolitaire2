@@ -1,5 +1,8 @@
 import Card from "../src/model/Card";
+import Discard from "../src/model/Discard";
+import Foundation from "../src/model/Foundation";
 import Layout, { populate } from "../src/model/Layout";
+import Move from "../src/model/Move";
 
 describe("Layout", () => {
   describe("things the layout should have", () => {
@@ -105,6 +108,16 @@ describe("Layout", () => {
         .forEach(([i, j]) => {
           expect(layout.pile[i]).toBe(deck[j]);
         });
+    });
+  });
+  describe("moving cards around the layout", () => {
+    test("should be able to move an ace to the foundation from the discard", () => {
+      const layout = new Layout();
+      layout.discard.push(new Card(22));
+      const source = new Discard(layout);
+      const target = new Foundation(layout, 0);
+      const move = new Move(source, target);
+      expect(layout.allowed(move)).toBeTruthy();
     });
   });
 });
