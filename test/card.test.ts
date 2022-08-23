@@ -1,4 +1,5 @@
 import Card from "../src/model/Card";
+import { all, allPairs, cups, majors, pentacles, swords, wands } from "./utils";
 
 const oracle = [
   { index: 0, pip: "0", name: "The Fool", suit: "Major" },
@@ -82,19 +83,6 @@ const oracle = [
 ];
 
 describe("Card", () => {
-  const majors = new Array(22).fill(0).map((_, i) => new Card(i));
-  const wands = new Array(14).fill(0).map((_, i) => new Card(i + 22));
-  const cups = new Array(14).fill(0).map((_, i) => new Card(i + 22 + 14));
-  const swords = new Array(14).fill(0).map((_, i) => new Card(i + 22 + 2 * 14));
-  const pentacles = new Array(14)
-    .fill(0)
-    .map((_, i) => new Card(i + 22 + 3 * 14));
-  const all = majors
-    .concat(wands)
-    .concat(cups)
-    .concat(swords)
-    .concat(pentacles);
-  const allPairs = all.flatMap((parent) => all.map((child) => [parent, child]));
   describe("Card.suit", () => {
     all.forEach((card) => {
       test(`a card with id ${card.id} should have the suit of ${
