@@ -138,36 +138,96 @@ describe("Card", () => {
     });
   });
   describe("Card.allowed()", () => {
-    test("allowed example Major and a Major", () => {
-      const parent = new Card(1);
-      const child = new Card(0);
-      expect(parent.allowed(child)).toBeTruthy();
+    describe("when parent is on the tableu", () => {
+      const playLocation = "tableau";
+      it("should allow The Fool to be placed on The Magician", () => {
+        const parent = new Card(1);
+        const child = new Card(0);
+        expect(parent.allowed(playLocation, child)).toBeTruthy();
+      });
+      it("should not allow The Magician to be placed on The Fool", () => {
+        const parent = new Card(0);
+        const child = new Card(1);
+        expect(parent.allowed(playLocation, child)).toBeFalsy();
+      });
+      it("should not allow The High Priestess to be placed on The Fool", () => {
+        const parent = new Card(2);
+        const child = new Card(0);
+        expect(parent.allowed(playLocation, child)).toBeFalsy();
+      });
+      it("should not allow The Ace of Wands to be placed on The Fool", () => {
+        const parent = new Card(1);
+        const child = wands[0];
+        expect(parent.allowed(playLocation, child)).toBeFalsy();
+      });
+      it("should allow The Ace of Cups to be place on The Two of Wands", () => {
+        const parent = wands[1];
+        const child = cups[0];
+        expect(parent.allowed(playLocation, child)).toBeTruthy();
+      });
+      describe("when checking all possible pairs of cards", () => {
+        const allowedPairs = allPairs.filter(([parent, child]) =>
+          parent.allowed(playLocation, child)
+        );
+        const expectedNumberOfAllowedParings = 21 + 13 * 2 * 4;
+        it(`should give ${expectedNumberOfAllowedParings} possible allowed pairings`, () => {
+          expect(allowedPairs.length).toBe(expectedNumberOfAllowedParings);
+        });
+      });
     });
-    test("disallowed example Major and a Major", () => {
-      const parent = new Card(0);
-      const child = new Card(1);
-      expect(parent.allowed(child)).toBeFalsy();
+    describe("when parent is on the foundation", () => {
+      const playLocation = "foundation";
+      it("should allow The Magician to be placed on The Fool", () => {
+        const parent = majors[0];
+        const child = majors[1];
+        expect(parent.allowed(playLocation, child)).toBeTruthy();
+      });
+      it("should not allow The Fool to be placed on The Magician", () => {
+        const parent = majors[1];
+        const child = majors[0];
+        expect(parent.allowed(playLocation, child)).toBeFalsy();
+      });
+      it("should allow The Three of Cups to be placed on The Two of Cups", () => {
+        const parent = cups[1];
+        const child = cups[2];
+        expect(parent.allowed(playLocation, child)).toBeTruthy();
+      });
+      it("should not allow The Three of Penticles to be placed on The Two of Cups", () => {
+        const parent = cups[1];
+        const child = pentacles[2];
+        expect(parent.allowed(playLocation, child)).toBeFalsy();
+      });
+      describe("when checking all allowed pairs", () => {
+        const allowedPairs = allPairs.filter(([parent, child]) =>
+          parent.allowed(playLocation, child)
+        );
+        const expectedNumberOfAllowedParings = 21 + 4 * 13;
+        it(`should produce ${expectedNumberOfAllowedParings} allowed pairings`, () => {
+          expect(allowedPairs.length).toBe(expectedNumberOfAllowedParings);
+        });
+      });
     });
-    test("disallowed example 2 Major and a Major", () => {
-      const parent = new Card(2);
-      const child = new Card(0);
-      expect(parent.allowed(child)).toBeFalsy();
+    describe("when the parent is on the discard", () => {
+      describe("when checking all possible pairs of cards", () => {
+        const allowedPairs = allPairs.filter(([parent, child]) =>
+          parent.allowed("discard", child)
+        );
+        const expectedNumberOfAllowedParings = 78 * 78;
+        it(`should give ${expectedNumberOfAllowedParings} possible allowed pairings`, () => {
+          expect(allowedPairs.length).toBe(expectedNumberOfAllowedParings);
+        });
+      });
     });
-    test("disallowed example Major and a Wand", () => {
-      const parent = new Card(1);
-      const child = wands[0];
-      expect(parent.allowed(child)).toBeFalsy();
-    });
-    test("allowed example Wand and a Cup", () => {
-      const parent = wands[1];
-      const child = cups[0];
-      expect(parent.allowed(child)).toBeTruthy();
-    });
-    const allowedPairs = allPairs.filter(([parent, child]) =>
-      parent.allowed(child)
-    );
-    test("allowed", () => {
-      expect(allowedPairs.length).toBe(21 + 13 * 2 * 4);
+    describe("when the parent is on the pile", () => {
+      describe("when checking all possible pairs of cards", () => {
+        const allowedPairs = allPairs.filter(([parent, child]) =>
+          parent.allowed("pile", child)
+        );
+        const expectedNumberOfAllowedParings = 78 * 78;
+        it(`should give ${expectedNumberOfAllowedParings} possible allowed pairings`, () => {
+          expect(allowedPairs.length).toBe(expectedNumberOfAllowedParings);
+        });
+      });
     });
   });
 });
