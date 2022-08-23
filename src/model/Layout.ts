@@ -13,7 +13,11 @@ export default class Layout {
     this.discard = new Array<Card>();
   }
   allowed(move: Move): boolean {
-    return true;
+    const card = move.source.cards.at(-1);
+    if (card) {
+      return move.target.proposedChild(move.source.cards.at(-1));
+    }
+    return false;
   }
 }
 export const populate = (deck: Card[]): Layout => {

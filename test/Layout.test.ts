@@ -3,6 +3,7 @@ import Discard from "../src/model/Discard";
 import Foundation from "../src/model/Foundation";
 import Layout, { populate } from "../src/model/Layout";
 import Move from "../src/model/Move";
+import { wands } from "./utils";
 
 describe("Layout", () => {
   describe("things the layout should have", () => {
@@ -118,6 +119,21 @@ describe("Layout", () => {
       const target = new Foundation(layout, 0);
       const move = new Move(source, target);
       expect(layout.allowed(move)).toBeTruthy();
+    });
+    it("should not be able to move a two to the foundation from the discard", () => {
+      const layout = new Layout();
+      layout.discard.push(wands[1]);
+      const source = new Discard(layout);
+      const target = new Foundation(layout, 0);
+      const move = new Move(source, target);
+      expect(layout.allowed(move)).toBeFalsy();
+    });
+    it("should not allow movement between an empty location to another location", () => {
+      const layout = new Layout();
+      const source = new Discard(layout);
+      const target = new Foundation(layout, 0);
+      const move = new Move(source, target);
+      expect(layout.allowed(move)).toBeFalsy();
     });
   });
 });
