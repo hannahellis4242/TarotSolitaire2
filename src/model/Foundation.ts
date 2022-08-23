@@ -11,7 +11,6 @@ export default class Foundation {
   }
   proposedChild(child: Card): boolean {
     const topCard = this.cards.at(-1);
-    console.log("topCard : ", topCard);
     return topCard
       ? topCard.allowed(this.name, child)
       : child.pip === "Ace" || child.pip === "0";
