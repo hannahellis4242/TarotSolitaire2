@@ -17,3 +17,6 @@ export const all = majors
 export const allPairs = all.flatMap((parent) =>
   all.map((child) => [parent, child])
 );
+export const kings = all.filter(({ pip }) => pip === "King");
+export const queens = all.filter(({ pip }) => pip === "Queen");
+export const eights = all.filter(({ pip }) => pip === "Eight");
