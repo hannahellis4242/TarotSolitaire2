@@ -128,7 +128,7 @@ export default class Card {
       );
     }
     if (location === "foundation") {
-      return child.suit === this.suit && child.pipIndex - 1 === this.pipIndex;
+      return child.suit === this.suit && child.pipIndex === this.pipIndex + 1;
     }
     return true;
   }
