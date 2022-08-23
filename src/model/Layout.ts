@@ -14,10 +14,7 @@ export default class Layout {
     this.discard = new Array<Card>();
   }
   allowed(move: Move): boolean {
-    const card =
-      move.source instanceof Tableau
-        ? move.source.getAnchor()
-        : move.source.cards.at(-1);
+    const card = move.source.getAnchor();
     if (card) {
       return move.target.proposedChild(card);
     }

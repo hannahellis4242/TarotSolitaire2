@@ -4,10 +4,13 @@ import Location, { PlayLocation } from "./Location";
 
 export default class Discard implements Location {
   name: PlayLocation;
-  cards: Card[];
+  private cards: Card[];
   constructor(public layout: Layout) {
     this.name = "discard";
     this.cards = layout.discard;
+  }
+  getAnchor(): Card | undefined {
+    return this.cards.at(-1);
   }
   proposedChild(_: Card): boolean {
     //discard does not accept any card being dropped on it.
