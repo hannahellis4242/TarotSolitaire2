@@ -1,5 +1,33 @@
 import Card from "../src/model/Card";
 
+interface Location {
+  name: string;
+  layout: Layout;
+  cards: Card[];
+}
+
+class Discard implements Location {
+  name: string;
+  cards: Card[];
+  constructor(public layout: Layout) {
+    this.name = "discard";
+    this.cards = layout.discard;
+  }
+}
+
+class Foundation implements Location {
+  name: string;
+  cards: Card[];
+  constructor(public layout: Layout, index: number) {
+    this.name = "foundation";
+    this.cards = layout.foundation[index];
+  }
+}
+
+class Move {
+  constructor(public source: Location, public target: Location) {}
+}
+
 class Layout {
   tableau: Card[][];
   foundation: Card[][];
@@ -10,6 +38,9 @@ class Layout {
     this.foundation = new Array(5).fill(0).map(() => new Array<Card>());
     this.pile = new Array<Card>();
     this.discard = new Array<Card>();
+  }
+  allowed(move: Move): boolean {
+    return true;
   }
 }
 
@@ -130,6 +161,16 @@ describe("Layout", () => {
         .forEach(([i, j]) => {
           expect(layout.pile[i]).toBe(deck[j]);
         });
+    });
+  });
+  describe("moving cards around the layout", () => {
+    test("should be able to move an ace to the foundation from the discard", () => {
+      const layout = new Layout();
+      layout.discard.push(new Card(22));
+      const source = new Discard(layout);
+      const target = new Foundation(layout, 0);
+      const move = new Move(source, target);
+      expect(layout.allowed(move)).toBeTruthy();
     });
   });
 });
