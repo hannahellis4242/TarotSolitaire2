@@ -9,8 +9,8 @@ export default class Discard implements Location {
     this.name = "discard";
     this.cards = layout.discard;
   }
-  proposedChild(child: Card): boolean {
-    //discard accepts any child card
-    return true;
+  proposedChild(_: Card): boolean {
+    //discard does not accept any card being dropped on it.
+    return false;
   }
 }

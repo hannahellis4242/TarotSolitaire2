@@ -6,8 +6,8 @@ describe("Discard", () => {
   const layout = new Layout();
   const discard = new Discard(layout);
   all.forEach((card) => {
-    it(`should accept any card, namely ${card}`, () => {
-      expect(discard.proposedChild(card)).toBeTruthy();
+    it(`should not accept any card, namely ${card}`, () => {
+      expect(discard.proposedChild(card)).toBeFalsy();
     });
   });
 });
