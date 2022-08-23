@@ -3,9 +3,9 @@ import Foundation from "../src/model/Foundation";
 import { all } from "./utils";
 
 describe("Foundation", () => {
-  const layout = new Layout();
-  const foundation = new Foundation(layout, 0);
   describe("when empty", () => {
+    const layout = new Layout();
+    const foundation = new Foundation(layout, 0);
     let allowed = [all[0], all[22], all[36], all[50], all[64]];
     allowed.forEach((card) => {
       it(`should allow ${card} to be placed`, () => {
@@ -20,7 +20,9 @@ describe("Foundation", () => {
         });
       });
   });
-  /*describe("when not empty", () => {
+  describe("when not empty", () => {
+    const layout = new Layout();
+    const foundation = new Foundation(layout, 0);
     foundation.cards.push(all[0]);
     it(`should allow ${all[1]} to be placed`, () => {
       expect(foundation.proposedChild(all[1])).toBeTruthy();
@@ -32,5 +34,5 @@ describe("Foundation", () => {
           expect(foundation.proposedChild(card)).toBeFalsy();
         });
       });
-  });*/
+  });
 });
