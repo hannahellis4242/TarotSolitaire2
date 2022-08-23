@@ -1,5 +1,6 @@
 import Card from "./Card";
 import Move from "./Move";
+import Tableau from "./Tableau";
 
 export default class Layout {
   tableau: Card[][];
@@ -13,9 +14,12 @@ export default class Layout {
     this.discard = new Array<Card>();
   }
   allowed(move: Move): boolean {
-    const card = move.source.cards.at(-1);
+    const card =
+      move.source instanceof Tableau
+        ? move.source.getAnchor()
+        : move.source.cards.at(-1);
     if (card) {
-      return move.target.proposedChild(move.source.cards.at(-1));
+      return move.target.proposedChild(card);
     }
     return false;
   }

@@ -3,7 +3,8 @@ import Discard from "../src/model/Discard";
 import Foundation from "../src/model/Foundation";
 import Layout, { populate } from "../src/model/Layout";
 import Move from "../src/model/Move";
-import { wands } from "./utils";
+import Tableau from "../src/model/Tableau";
+import { kings, knights, pages, queens, wands } from "./utils";
 
 describe("Layout", () => {
   describe("things the layout should have", () => {
@@ -134,6 +135,15 @@ describe("Layout", () => {
       const target = new Foundation(layout, 0);
       const move = new Move(source, target);
       expect(layout.allowed(move)).toBeFalsy();
+    });
+    it("should allow movement of several cards from one tabeau to another", () => {
+      const layout = new Layout();
+      layout.tableau[0].push(kings[0]);
+      layout.tableau[1] = [queens[1], knights[0], pages[1]];
+      const source = new Tableau(layout, 1, 3);
+      const target = new Tableau(layout, 0);
+      const move = new Move(source, target);
+      expect(layout.allowed(move)).toBeTruthy();
     });
   });
 });

@@ -19,4 +19,7 @@ export const allPairs = all.flatMap((parent) =>
 );
 export const kings = all.filter(({ pip }) => pip === "King");
 export const queens = all.filter(({ pip }) => pip === "Queen");
+export const knights = all.filter(({ pip }) => pip === "Knight");
+export const pages = all.filter(({ pip }) => pip === "Page");
+export const tens = all.filter(({ pip }) => pip === "Ten");
 export const eights = all.filter(({ pip }) => pip === "Eight");

@@ -1,6 +1,6 @@
 import Layout from "../src/model/Layout";
 import Tableau from "../src/model/Tableau";
-import { eights, kings, majors, queens } from "./utils";
+import { eights, kings, knights, majors, pages, queens } from "./utils";
 
 describe("Tableau", () => {
   describe("when moving to an empty tableau slot", () => {
@@ -41,6 +41,16 @@ describe("Tableau", () => {
         it("should not allow the movement", () => {
           expect(location.proposedChild(eights[0])).toBeFalsy();
         });
+      });
+    });
+  });
+  describe("when tableau represents several cards", () => {
+    const layout = new Layout();
+    layout.tableau[0] = [kings[0], queens[1], knights[2], pages[3]];
+    const location = new Tableau(layout, 0, 3);
+    describe("when we get the anchor card", () => {
+      it("should give the card that is spesified by the depth", () => {
+        expect(location.getAnchor()).toBe(queens[1]);
       });
     });
   });
