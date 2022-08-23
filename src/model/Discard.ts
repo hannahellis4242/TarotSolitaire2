@@ -1,5 +1,6 @@
 import Card from "./Card";
 import Layout from "./Layout";
+import Location from "./Location";
 
 export default class Discard implements Location {
   name: string;
