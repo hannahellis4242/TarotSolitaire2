@@ -1,6 +1,6 @@
 import Card from "../src/model/Card";
 
-const expected = [
+const oracle = [
   { index: 0, pip: "0", name: "The Fool", suit: "Major" },
   { index: 1, pip: "I", name: "The Magician", suit: "Major" },
   { index: 2, pip: "II", name: "The High Priestess", suit: "Major" },
@@ -98,14 +98,14 @@ describe("Card", () => {
   describe("Card.suit", () => {
     all.forEach((card) => {
       test(`a card with id ${card.id} should have the suit of ${
-        expected[card.id].suit
+        oracle[card.id].suit
       }`, () => {
-        expect(card.suit).toBe(expected[card.id].suit);
+        expect(card.suit).toBe(oracle[card.id].suit);
       });
     });
   });
   describe("Card.pip", () => {
-    expected.forEach(({ index, pip }) => {
+    oracle.forEach(({ index, pip }) => {
       test(`a card with an id of ${index} should have pip ${pip}`, () => {
         const card = new Card(index);
         expect(card.pip).toBe(pip);
