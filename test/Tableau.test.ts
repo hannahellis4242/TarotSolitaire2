@@ -27,7 +27,7 @@ describe("Tableau", () => {
       });
     });
   });
-  describe("when moving to a non-empt tableau slot", () => {
+  describe("when moving to a non-empty tableau slot", () => {
     describe("when the card that is there is Strength", () => {
       const layout = new Layout();
       const location = new Tableau(layout, 0);
