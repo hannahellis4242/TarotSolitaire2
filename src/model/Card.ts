@@ -1,3 +1,5 @@
+import { PlayLocation } from "./Location";
+
 export type Suit = "Major" | "Wands" | "Cups" | "Swords" | "Pentacles";
 const suits: Suit[] = ["Major", "Wands", "Cups", "Swords", "Pentacles"];
 
@@ -83,17 +85,6 @@ const minorPips: Pip[] = [
 
 const pips: Pip[] = majorPips.concat(minorPips);
 
-const majorPipsToPipIndex = majorPips.map((x, i) => [x, i]);
-const minorPipsToPipIndex = minorPips.map((x, i) => [x, i]);
-
-const getPipIndex = (suit: Suit, pip: Pip) => {
-  if (suit === "Major") {
-    return majorPipsToPipIndex.find(([x, i]) => x === pip)[1];
-  } else {
-    return minorPipsToPipIndex.find(([x, i]) => x === pip)[1];
-  }
-};
-
 export type Colour = "Colourless" | "Red" | "Black";
 
 export default class Card {
@@ -127,12 +118,22 @@ export default class Card {
     }
   }
 
-  allowed(child: Card): boolean {
-    return (
-      child.pipIndex + 1 === this.pipIndex &&
-      ((this.colour === child.colour && this.colour === "Colourless") ||
-        (this.colour === "Red" && child.colour === "Black") ||
-        (this.colour === "Black" && child.colour === "Red"))
-    );
+  allowed(location: PlayLocation, child: Card): boolean {
+    if (location === "tableau") {
+      return (
+        child.pipIndex + 1 === this.pipIndex &&
+        ((this.colour === child.colour && this.colour === "Colourless") ||
+          (this.colour === "Red" && child.colour === "Black") ||
+          (this.colour === "Black" && child.colour === "Red"))
+      );
+    }
+    if (location === "foundation") {
+      return child.suit === this.suit && child.pipIndex - 1 === this.pipIndex;
+    }
+    return true;
+  }
+
+  toString() {
+    return JSON.stringify({ suit: this.suit, pip: this.pip });
   }
 }
