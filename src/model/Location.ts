@@ -1,5 +1,5 @@
 import Card from "./Card";
-export type PlayLocation = "pile" | "discard" | "foundation" | "tableau";
+export type PlayLocation = "stock" | "discard" | "foundation" | "tableau";
 export default interface Location {
   name: PlayLocation;
   cards: Card[];

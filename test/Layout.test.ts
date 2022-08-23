@@ -17,11 +17,11 @@ describe("Layout", () => {
       expect(layout.foundation.length).toBe(5);
       expect(layout.foundation[0]).not.toBe(layout.foundation[1]); //make sure that each array of cards is actually a different array of cards
     });
-    test("the layout should have a pile of cards that starts off empty", () => {
+    test("the layout should have a stock of cards that starts off empty", () => {
       const layout = new Layout();
-      expect(layout.pile.length).toBe(0);
+      expect(layout.stock.length).toBe(0);
     });
-    test("the layout should have a discard pile of cards that starts off empty", () => {
+    test("the layout should have a discard stock of cards that starts off empty", () => {
       const layout = new Layout();
       expect(layout.discard.length).toBe(0);
     });
@@ -101,13 +101,13 @@ describe("Layout", () => {
       expect(layout.tableau[8][7]).toBe(deck[43]);
       expect(layout.tableau[8][8]).toBe(deck[44]);
     });
-    test("rest of the cards are in the pile", () => {
-      expect(layout.pile.length).toBe(33);
+    test("rest of the cards are in the stock", () => {
+      expect(layout.stock.length).toBe(33);
       new Array(33)
         .fill(0)
         .map((_, i) => [i, i + 45])
         .forEach(([i, j]) => {
-          expect(layout.pile[i]).toBe(deck[j]);
+          expect(layout.stock[i]).toBe(deck[j]);
         });
     });
   });

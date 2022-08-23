@@ -221,7 +221,7 @@ describe("Card", () => {
     describe("when the parent is on the pile", () => {
       describe("when checking all possible pairs of cards", () => {
         const allowedPairs = allPairs.filter(([parent, child]) =>
-          parent.allowed("pile", child)
+          parent.allowed("stock", child)
         );
         const expectedNumberOfAllowedParings = 78 * 78;
         it(`should give ${expectedNumberOfAllowedParings} possible allowed pairings`, () => {
