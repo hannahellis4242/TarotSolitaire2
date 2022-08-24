@@ -546,5 +546,18 @@ describe("Layout", () => {
       true,
       () => {}
     );
+    layout.nextCard();
+    testMovement(
+      "move six of cups to five of cups on the foundation",
+      layout,
+      foundation[1],
+      discard,
+      lastChild,
+      lastChild,
+=======
+>>>>>>> 6d990d1 (Fixing layout test)
+      true,
+      (s) => console.log(s)
+    );
   });
 });

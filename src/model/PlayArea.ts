@@ -12,7 +12,7 @@ export default abstract class PlayArea extends ForcedParent {
   setChild(newChild?: Card): boolean {
     if (newChild) {
       if (this.allowed(newChild)) {
-        //new child-s parent needs to give up ownership
+        //new child's parent needs to give up ownership
         if (newChild) {
           const parent = newChild.parent;
           if (parent) {
