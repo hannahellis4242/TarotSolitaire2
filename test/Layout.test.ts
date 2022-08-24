@@ -1,12 +1,11 @@
 import { populate } from "../src/model/Layout";
-import { showChain } from "../src/model/Parent";
 import { all } from "./utils";
 
 describe("Layout", () => {
   describe("when we populate the layout", () => {
     const deck = [...all];
     const layout = populate(deck);
-    console.log(layout.show());
+    //console.log(layout.show());
     describe("when we check all the cards", () => {
       all.forEach((card) => {
         it(`should be that card ${card} has a parent`, () => {

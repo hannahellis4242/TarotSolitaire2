@@ -12,6 +12,12 @@ export default class Foundation extends PlayArea {
     return "foundation";
   }
   allowed(child: Card): boolean {
-    return !this.child && (child.pip === "Ace" || child.pip === "0");
+    if (this.child) {
+      return false;
+    }
+    if (child.child) {
+      return false;
+    }
+    return child.pip === "Ace" || child.pip === "0";
   }
 }

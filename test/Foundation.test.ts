@@ -1,11 +1,11 @@
-import Layout from "../src/model/Layout";
 import Foundation from "../src/model/Foundation";
-import { all, majors, wands } from "./utils";
+import { aces, all, majors, twos, wands } from "./utils";
+import Card from "../src/model/Card";
 
 describe("Foundation", () => {
   describe("when empty", () => {
     const foundation = new Foundation();
-    let allowed = [all[0], all[22], all[36], all[50], all[64]];
+    let allowed = [aces[0], aces[1], aces[2], aces[3], majors[0]];
     allowed.forEach((card) => {
       it(`should allow ${card} to be placed`, () => {
         expect(foundation.allowed(card)).toBeTruthy();
@@ -18,6 +18,17 @@ describe("Foundation", () => {
           expect(foundation.allowed(card)).toBeFalsy();
         });
       });
+    describe("when moving a king", () => {
+      describe("when the king has a child card", () => {
+        const card = new Card(22);
+        const child = new Card(23);
+        expect(card.setChild(child)).toBeTruthy();
+        expect(card.child).toBe(child);
+        it("should not allow the movement", () => {
+          expect(foundation.allowed(card)).toBeFalsy();
+        });
+      });
+    });
   });
   describe("when not empty", () => {
     const foundation = new Foundation();

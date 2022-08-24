@@ -1,7 +1,8 @@
 import Card from "./Card";
 import Discard from "./Discard";
 import Foundation from "./Foundation";
-import Parent, { showChain } from "./Parent";
+import Parent from "./Parent";
+import { showChain } from "./showChain";
 import Stock from "./Stock";
 import Tableau from "./Tableau";
 
