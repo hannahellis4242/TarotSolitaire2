@@ -2,9 +2,17 @@ import Card from "./Card";
 import Discard from "./Discard";
 import Foundation from "./Foundation";
 import Parent from "./Parent";
-import { showChain } from "./showChain";
+import { showChain } from "./chainUtils";
 import Stock from "./Stock";
 import Tableau from "./Tableau";
+
+export const forceMove = (source: Card, target: Parent, faceUp: boolean) => {
+  source.faceUp = faceUp;
+  if (source.parent) {
+    source.parent.setChild();
+  }
+  target.forceChild(source);
+};
 
 export default class Layout {
   tableau: Tableau[];
@@ -29,10 +37,23 @@ export default class Layout {
     out += "\n";
     return out;
   }
+
+  nextCard() {
+    if (this.stock.child) {
+      //the stock is not depleated so we can move the last child of the stock to the last child of the discard
+      const source = lastCard(this.stock.child);
+      const target = lastChild(this.discard);
+      forceMove(source, target, true);
+    }
+  }
 }
 
-const lastChild = (location: Parent): Parent => {
-  return location.child ? lastChild(location.child) : location;
+const lastChild = (parent: Parent): Parent => {
+  return parent.child ? lastCard(parent.child) : parent;
+};
+
+const lastCard = (card: Card): Card => {
+  return card.child ? lastCard(card.child) : card;
 };
 
 export const populate = (deck: Card[]): Layout => {

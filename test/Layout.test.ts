@@ -1,15 +1,43 @@
+import { chainLength } from "../src/model/chainUtils";
 import { populate } from "../src/model/Layout";
-import { all } from "./utils";
+import { createAllCards } from "./utils";
 
 describe("Layout", () => {
   describe("when we populate the layout", () => {
-    const deck = [...all];
+    const deck = createAllCards();
     const layout = populate(deck);
     //console.log(layout.show());
     describe("when we check all the cards", () => {
-      all.forEach((card) => {
+      deck.forEach((card) => {
         it(`should be that card ${card} has a parent`, () => {
           expect(card.parent).not.toBeUndefined();
+        });
+      });
+    });
+  });
+  describe("when we populate the layout", () => {
+    const deck = createAllCards();
+    const layout = populate(deck);
+    console.log("before : \n", layout.show());
+    const stockLength = chainLength(layout.stock);
+    describe("when calling next", () => {
+      layout.nextCard();
+      console.log("after : \n", layout.show());
+      describe("when looking at the discard pile", () => {
+        const discard = layout.discard;
+        it("should have one card in the discard pile", () => {
+          expect(discard.child).not.toBeNull();
+          expect(chainLength(discard)).toBe(1);
+        });
+        const card = discard.child;
+        it(`should have all cards should be face up, namely ${card}`, () => {
+          expect(card.faceUp).toBeTruthy();
+        });
+      });
+      describe("when looking at the stock", () => {
+        const stock = layout.stock;
+        it("should have one less card in the stock pile", () => {
+          expect(chainLength(stock)).toBe(stockLength - 1);
         });
       });
     });

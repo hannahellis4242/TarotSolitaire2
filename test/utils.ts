@@ -25,3 +25,6 @@ export const tens = all.filter(({ pip }) => pip === "Ten");
 export const eights = all.filter(({ pip }) => pip === "Eight");
 export const twos = all.filter(({ pip }) => pip === "Two");
 export const aces = all.filter(({ pip }) => pip === "Ace");
+
+export const createAllCards = () =>
+  new Array(78).fill(0).map((_, i) => new Card(i));

@@ -93,6 +93,7 @@ export default class Card extends PlayArea {
   suit: Suit;
   pip: Pip;
   colour: Colour;
+  faceUp: boolean;
   private pipIndex: number;
   constructor(public id: number, public parent?: Parent, child?: Card) {
     super(child);
@@ -119,6 +120,7 @@ export default class Card extends PlayArea {
         this.colour = "Colourless";
         break;
     }
+    this.faceUp = false;
   }
   location(): Location {
     return this.parent ? this.parent.location() : "unplaced";
@@ -142,15 +144,14 @@ export default class Card extends PlayArea {
     }
     return true;
   }
-
+  flip() {
+    this.faceUp = !this.faceUp;
+  }
   toString() {
-    return JSON.stringify({ suit: this.suit, pip: this.pip });
+    return JSON.stringify({
+      suit: this.suit,
+      pip: this.pip,
+      faceUp: this.faceUp,
+    });
   }
 }
-
-export const getArrayVersion = (current: Parent): Parent[] => {
-  if (current.child) {
-    return [current, ...getArrayVersion(current.child)];
-  }
-  return [current];
-};
