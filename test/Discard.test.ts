@@ -10,4 +10,13 @@ describe("Discard", () => {
       expect(discard.proposedChild(card)).toBeFalsy();
     });
   });
+  describe("when getting the anchor card", () => {
+    const layout = new Layout();
+    layout.discard.push(all[0]);
+    layout.discard.push(all[42]);
+    const location = new Discard(layout);
+    it("should give back the last card", () => {
+      expect(location.getAnchor()).toBe(all[42]);
+    });
+  });
 });
