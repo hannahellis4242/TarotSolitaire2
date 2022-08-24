@@ -1,5 +1,19 @@
 import Card from "../src/model/Card";
-import { all, allPairs, cups, majors, pentacles, swords, wands } from "./utils";
+import Foundation from "../src/model/Foundation";
+import Tableau from "../src/model/Tableau";
+import {
+  aces,
+  all,
+  allPairs,
+  cups,
+  kings,
+  majors,
+  pentacles,
+  queens,
+  swords,
+  twos,
+  wands,
+} from "./utils";
 
 const oracle = [
   { index: 0, pip: "0", name: "The Fool", suit: "Major" },
@@ -137,7 +151,102 @@ describe("Card", () => {
       });
     });
   });
-  describe("Card.allowed()", () => {
+  describe("when a card is placed on a location", () => {
+    describe("when the location is a Tableau", () => {
+      describe("when the card is allowed in the location", () => {
+        it('should give "tableau" as it\'s location', () => {
+          const location = new Tableau();
+          const card = kings[0];
+          expect(card.parent).toBeUndefined();
+          expect(card.location()).toBe("unplaced");
+          expect(location.setChild(card)).toBeTruthy();
+          expect(card.location()).toBe("tableau");
+          expect(card.parent).toBe(location);
+        });
+      });
+      describe("when the card is not allowed in the location", () => {
+        it('should give "unplaced" as it\'s location', () => {
+          const location = new Tableau();
+          const card = majors[0];
+          expect(card.parent).toBeUndefined();
+          expect(card.location()).toBe("unplaced");
+          expect(location.setChild(card)).toBeFalsy();
+          expect(card.location()).toBe("unplaced");
+          expect(card.parent).toBeUndefined();
+        });
+      });
+    });
+    describe("when the location is a Foundation", () => {
+      it('should give "foundation" as it\'s location', () => {
+        const location = new Foundation();
+        const card = aces[0];
+        expect(card.parent).toBeUndefined();
+        expect(card.location()).toBe("unplaced");
+        expect(location.setChild(card)).toBeTruthy();
+        expect(card.location()).toBe("foundation");
+        expect(card.parent).toBe(location);
+      });
+    });
+  });
+  describe("when a card is placed on a another card", () => {
+    describe("when the parent is on a Tableau", () => {
+      describe("when the card is allowed in the location", () => {
+        it('should give "tableau" as it\'s location', () => {
+          const location = new Tableau();
+          const parent = kings[0];
+          location.setChild(parent);
+          const card = queens[1];
+          expect(card.parent).toBeUndefined();
+          expect(card.location()).toBe("unplaced");
+          expect(parent.setChild(card)).toBeTruthy();
+          expect(card.location()).toBe("tableau");
+          expect(card.parent).toBe(parent);
+        });
+      });
+      describe("when the card is not allowed in the location", () => {
+        it('should give "unplaced" as it\'s location', () => {
+          const location = new Tableau();
+          const parent = kings[0];
+          location.setChild(parent);
+          const card = queens[0];
+          expect(card.parent).toBeUndefined();
+          expect(card.location()).toBe("unplaced");
+          expect(parent.setChild(card)).toBeFalsy();
+          expect(card.location()).toBe("unplaced");
+          expect(card.parent).toBeUndefined();
+        });
+      });
+    });
+    describe("when the parent is on a Foundation", () => {
+      describe("when the card is allowed in the location", () => {
+        it('should give "foundation" as it\'s location', () => {
+          const location = new Foundation();
+          const parent = aces[0];
+          location.setChild(parent);
+          const card = twos[0];
+          expect(card.parent).toBeUndefined();
+          expect(card.location()).toBe("unplaced");
+          expect(parent.setChild(card)).toBeTruthy();
+          expect(card.location()).toBe("foundation");
+          expect(card.parent).toBe(parent);
+        });
+      });
+      describe("when the card is not allowed in the location", () => {
+        it('should give "unplaced" as it\'s location', () => {
+          const location = new Foundation();
+          const parent = aces[0];
+          location.setChild(parent);
+          const card = twos[1];
+          expect(card.parent).toBeUndefined();
+          expect(card.location()).toBe("unplaced");
+          expect(parent.setChild(card)).toBeFalsy();
+          expect(card.location()).toBe("unplaced");
+          expect(card.parent).toBeUndefined();
+        });
+      });
+    });
+  });
+  /*describe("Card.allowed()", () => {
     describe("when parent is on the tableu", () => {
       const playLocation = "tableau";
       it("should allow The Fool to be placed on The Magician", () => {
@@ -229,5 +338,5 @@ describe("Card", () => {
         });
       });
     });
-  });
+  });*/
 });

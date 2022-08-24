@@ -1,13 +1,23 @@
-import Card from "../src/model/Card";
-import Discard from "../src/model/Discard";
-import Foundation from "../src/model/Foundation";
-import Layout, { populate } from "../src/model/Layout";
-import Move from "../src/model/Move";
-import Tableau from "../src/model/Tableau";
-import { kings, knights, pages, queens, wands } from "./utils";
+import { populate } from "../src/model/Layout";
+import { showChain } from "../src/model/Parent";
+import { all } from "./utils";
 
 describe("Layout", () => {
-  describe("things the layout should have", () => {
+  describe("when we populate the layout", () => {
+    const deck = [...all];
+    const layout = populate(deck);
+    console.log(layout.show());
+    describe("when we check all the cards", () => {
+      all.forEach((card) => {
+        it(`should be that card ${card} has a parent`, () => {
+          expect(card.parent).not.toBeUndefined();
+        });
+      });
+    });
+  });
+});
+
+/*describe("things the layout should have", () => {
     test("the layout should have a tableau that consists of nine slots for cards", () => {
       const layout = new Layout();
       expect(layout.tableau.length).toBe(9);
@@ -146,4 +156,4 @@ describe("Layout", () => {
       expect(layout.allowed(move)).toBeTruthy();
     });
   });
-});
+});*/

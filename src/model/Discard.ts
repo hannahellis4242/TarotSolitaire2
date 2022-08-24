@@ -1,19 +1,12 @@
 import Card from "./Card";
-import Layout from "./Layout";
-import Location, { PlayLocation } from "./Location";
+import { Location } from "./Location";
+import Pile from "./Pile";
 
-export default class Discard implements Location {
-  name: PlayLocation;
-  private cards: Card[];
-  constructor(public layout: Layout) {
-    this.name = "discard";
-    this.cards = layout.discard;
+export default class Discard extends Pile {
+  constructor(child?: Card) {
+    super(child);
   }
-  getAnchor(): Card | undefined {
-    return this.cards.at(-1);
-  }
-  proposedChild(_: Card): boolean {
-    //discard does not accept any card being dropped on it.
-    return false;
+  location(): Location {
+    return "discard";
   }
 }

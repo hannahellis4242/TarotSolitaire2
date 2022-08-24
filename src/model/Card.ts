@@ -1,4 +1,6 @@
-import { PlayLocation } from "./Location";
+import { Location } from "./Location";
+import Parent from "./Parent";
+import PlayArea from "./PlayArea";
 
 export type Suit = "Major" | "Wands" | "Cups" | "Swords" | "Pentacles";
 const suits: Suit[] = ["Major", "Wands", "Cups", "Swords", "Pentacles"];
@@ -87,12 +89,13 @@ const pips: Pip[] = majorPips.concat(minorPips);
 
 export type Colour = "Colourless" | "Red" | "Black";
 
-export default class Card {
+export default class Card extends PlayArea {
   suit: Suit;
   pip: Pip;
   colour: Colour;
   private pipIndex: number;
-  constructor(public id: number) {
+  constructor(public id: number, public parent?: Parent, child?: Card) {
+    super(child);
     const value = Math.floor((id - 22) / 14);
     const suitsIndex = value < 0 ? 0 : value + 1;
     this.suit = suits[suitsIndex];
@@ -117,8 +120,15 @@ export default class Card {
         break;
     }
   }
+  location(): Location {
+    return this.parent ? this.parent.location() : "unplaced";
+  }
 
-  allowed(location: PlayLocation, child: Card): boolean {
+  allowed(child: Card): boolean {
+    if (this.child) {
+      return false;
+    }
+    const location = this.location();
     if (location === "tableau") {
       return (
         child.pipIndex + 1 === this.pipIndex &&
@@ -137,3 +147,10 @@ export default class Card {
     return JSON.stringify({ suit: this.suit, pip: this.pip });
   }
 }
+
+export const getArrayVersion = (current: Parent): Parent[] => {
+  if (current.child) {
+    return [current, ...getArrayVersion(current.child)];
+  }
+  return [current];
+};

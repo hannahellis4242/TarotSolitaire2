@@ -23,3 +23,5 @@ export const knights = all.filter(({ pip }) => pip === "Knight");
 export const pages = all.filter(({ pip }) => pip === "Page");
 export const tens = all.filter(({ pip }) => pip === "Ten");
 export const eights = all.filter(({ pip }) => pip === "Eight");
+export const twos = all.filter(({ pip }) => pip === "Two");
+export const aces = all.filter(({ pip }) => pip === "Ace");

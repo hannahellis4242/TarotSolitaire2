@@ -1,21 +1,17 @@
 import Card from "./Card";
 import Layout from "./Layout";
-import Location, { PlayLocation } from "./Location";
+import { Location } from "./Location";
+import PlayArea from "./PlayArea";
 
-export default class Foundation implements Location {
-  name: PlayLocation;
-  private cards: Card[];
-  constructor(public layout: Layout, index: number) {
-    this.name = "foundation";
-    this.cards = layout.foundation[index];
+export default class Foundation extends PlayArea {
+  locationName: Location;
+  constructor() {
+    super();
   }
-  getAnchor(): Card | undefined {
-    return this.cards.at(-1);
+  location(): Location {
+    return "foundation";
   }
-  proposedChild(child: Card): boolean {
-    const topCard = this.cards.at(-1);
-    return topCard
-      ? topCard.allowed(this.name, child)
-      : child.pip === "Ace" || child.pip === "0";
+  allowed(child: Card): boolean {
+    return !this.child && (child.pip === "Ace" || child.pip === "0");
   }
 }
