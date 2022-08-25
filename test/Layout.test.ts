@@ -234,8 +234,6 @@ describe("Layout", () => {
       true,
       () => {}
     );
-<<<<<<< HEAD
-=======
     testMovement(
       "move two of cups into the ace of cups on the foundation",
       layout,
@@ -246,6 +244,307 @@ describe("Layout", () => {
       true,
       () => {}
     );
->>>>>>> 6fe0a84 (Move checks for exposed cards into testing function)
+    testMovement(
+      "move Judgement on The World",
+      layout,
+      tableau[1],
+      tableau[3],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move Justice onto The Hanged Man",
+      layout,
+      tableau[5],
+      tableau[7],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move seven of swords onto the eight of cups",
+      layout,
+      tableau[3],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    testMovement(
+      "move two of wands to the foundation",
+      layout,
+      foundation[0],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move the ace of pentacles to the foundation",
+      layout,
+      foundation[2],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move the two of pentacles to ace of pentacles on the foundation",
+      layout,
+      foundation[2],
+      tableau[8],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    testMovement(
+      "move the star onto the moon",
+      layout,
+      tableau[6],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move the tower onto the tower",
+      layout,
+      tableau[6],
+      tableau[4],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move the six of wands onto the seven of swords",
+      layout,
+      tableau[8],
+      tableau[3],
+      lastChild,
+      lastChild,
+      false,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move three of pentacles onto the two of pentacles on the foundation",
+      layout,
+      foundation[2],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    testMovement(
+      "move the wheel of fortune onto justice",
+      layout,
+      tableau[5],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    testMovement(
+      "move the fool onto the foundation",
+      layout,
+      foundation[3],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move page of pentacles to knight of wands",
+      layout,
+      tableau[0],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move ten of wands to the page of pentacles",
+      layout,
+      tableau[0],
+      tableau[2],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move six of pentacle onto the seven of swoards",
+      layout,
+      tableau[3],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move five of cups to the six of wands",
+      layout,
+      tableau[8],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    testMovement(
+      "move three of wands to two of wands on the foundation",
+      layout,
+      foundation[0],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move the empress onto the emperor",
+      layout,
+      tableau[4],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move the high priestess onto the empress",
+      layout,
+      tableau[4],
+      tableau[7],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move the three of cups onto the two of cups on the foundation",
+      layout,
+      foundation[1],
+      tableau[7],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    testMovement(
+      "move the ten of swords onto the page of cups",
+      layout,
+      tableau[2],
+      tableau[7],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move four of cups to three of cups on the foundation",
+      layout,
+      foundation[1],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move five of cups to four of cups on the foundation",
+      layout,
+      foundation[1],
+      tableau[8],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    layout.nextCard();
+    testMovement(
+      "move four of wands to three of wands on the foundation",
+      layout,
+      foundation[0],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+    layout.nextCard();
+    testMovement(
+      "move six of cups to five of cups on the foundation",
+      layout,
+      foundation[1],
+      discard,
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
   });
 });
