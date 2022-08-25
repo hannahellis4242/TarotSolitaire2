@@ -1,5 +1,5 @@
 import { Location } from "./Location";
-import Parent from "./Parent";
+import Link from "./Link";
 import PlayArea from "./PlayArea";
 
 export type Suit = "Major" | "Wands" | "Cups" | "Swords" | "Pentacles";
@@ -95,7 +95,7 @@ export default class Card extends PlayArea {
   colour: Colour;
   faceUp: boolean;
   private pipIndex: number;
-  constructor(public id: number, public parent?: Parent, child?: Card) {
+  constructor(public id: number, public parent?: Link, child?: Card) {
     super(child);
     const value = Math.floor((id - 22) / 14);
     const suitsIndex = value < 0 ? 0 : value + 1;

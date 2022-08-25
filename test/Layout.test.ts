@@ -1,4 +1,4 @@
-import { chainLength } from "../src/model/chainUtils";
+import { chainLength, showChain } from "../src/model/chainUtils";
 import { populate } from "../src/model/Layout";
 import { createAllCards } from "./utils";
 
@@ -16,11 +16,11 @@ describe("Layout", () => {
     });
   });
   describe("when we populate the layout", () => {
-    const deck = createAllCards();
-    const layout = populate(deck);
-    console.log("before : \n", layout.show());
-    const stockLength = chainLength(layout.stock);
     describe("when calling next", () => {
+      const deck = createAllCards();
+      const layout = populate(deck);
+      console.log("before : \n", layout.show());
+      const stockLength = chainLength(layout.stock);
       layout.nextCard();
       console.log("after : \n", layout.show());
       describe("when looking at the discard pile", () => {
@@ -38,6 +38,34 @@ describe("Layout", () => {
         const stock = layout.stock;
         it("should have one less card in the stock pile", () => {
           expect(chainLength(stock)).toBe(stockLength - 1);
+        });
+      });
+    });
+    describe("when calling next and the stock is empty", () => {
+      const deck = createAllCards();
+      const layout = populate(deck);
+      console.log("before : \n", layout.show());
+      const stockLength = chainLength(layout.stock);
+      const stockString = showChain(layout.stock);
+      while (layout.stock.child) {
+        layout.nextCard();
+      }
+      layout.nextCard();
+      console.log("after : \n", layout.show());
+      describe("when looking at the discard pile", () => {
+        const discard = layout.discard;
+        it("should have zero cards in the discard pile", () => {
+          expect(discard.child).toBeNull();
+          expect(chainLength(discard)).toBe(0);
+        });
+      });
+      describe("when looking at the stock", () => {
+        const stock = layout.stock;
+        it("should be same length when populated", () => {
+          expect(chainLength(stock)).toBe(stockLength);
+        });
+        it("should have the same cards as when populated", () => {
+          expect(showChain(stock)).toBe(stockString);
         });
       });
     });

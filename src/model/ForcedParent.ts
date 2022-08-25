@@ -1,9 +1,9 @@
 import Card from "./Card";
 import { Location } from "./Location";
-import Parent from "./Parent";
+import Link from "./Link";
 
-export default abstract class ForcedParent implements Parent {
-  constructor(public child?: Card) {}
+export default abstract class ForcedParent implements Link {
+  constructor(public parent?: Link, public child?: Link) {}
   abstract location(): Location;
   abstract allowed(child: Card): boolean;
   abstract setChild(newChild?: Card): boolean;

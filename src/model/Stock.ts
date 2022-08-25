@@ -4,7 +4,7 @@ import Pile from "./Pile";
 
 export default class Stock extends Pile {
   constructor(child?: Card) {
-    super(child);
+    super(undefined, child);
   }
   location(): Location {
     return "stock";
