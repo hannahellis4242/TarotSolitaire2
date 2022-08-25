@@ -66,7 +66,17 @@ export default class Layout {
       return false;
     }
     if (source instanceof Card) {
-      return target.setChild(source);
+      const sucess = target.setChild(source);
+      if (sucess) {
+        //check if we need to make any face down cards on the tableau face up
+        this.tableau.forEach((slot) => {
+          const last = lastChild(slot);
+          if (last instanceof Card) {
+            last.faceUp = true;
+          }
+        });
+      }
+      return sucess;
     }
     return false;
   }

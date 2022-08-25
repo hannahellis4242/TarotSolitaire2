@@ -224,7 +224,7 @@ describe("Layout", () => {
       lastChild,
       (link) => nthChild(4, link),
       true,
-      (s) => console.log(s)
+      () => {}
     );
   });
 });
