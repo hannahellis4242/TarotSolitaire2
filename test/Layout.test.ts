@@ -1,9 +1,12 @@
+import random from "random";
+import seedrandom from "seedrandom";
 import Card from "../src/model/Card";
 import {
   chainLength,
   numberOfCardsInChain,
   showChain,
 } from "../src/model/chainUtils";
+import { shuffle } from "../src/model/Deck";
 import { populate } from "../src/model/Layout";
 import { createAllCards } from "./utils";
 
@@ -74,6 +77,12 @@ describe("Layout", () => {
         expect(showChain(stock)).toBe(stockString);
       });
     });
+  });
+  describe("when the layout is populated", () => {
+    const deck = createAllCards();
+    shuffle(deck, random.clone(seedrandom("aaa")));
+    const layout = populate(deck);
+    console.log(layout.show());
   });
 });
 
