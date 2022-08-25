@@ -1,9 +1,17 @@
+import colors from "colors";
 import Card from "./Card";
 import Parent from "./Parent";
 
+const showId = (card: Card) => {
+  if (card.faceUp) {
+    return colors.bgWhite.black(card.id.toString());
+  }
+  return card.id;
+};
+
 export const showChain = (x: Parent): string => {
   if (x.child) {
-    return x.child.id.toString() + " - " + showChain(x.child);
+    return showId(x.child) + " - " + showChain(x.child);
   }
   return "|";
 };
