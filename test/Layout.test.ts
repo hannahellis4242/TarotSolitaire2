@@ -1,4 +1,9 @@
-import { chainLength, showChain } from "../src/model/chainUtils";
+import Card from "../src/model/Card";
+import {
+  chainLength,
+  numberOfCardsInChain,
+  showChain,
+} from "../src/model/chainUtils";
 import { populate } from "../src/model/Layout";
 import { createAllCards } from "./utils";
 
@@ -15,23 +20,23 @@ describe("Layout", () => {
       });
     });
   });
-  describe("when we populate the layout", () => {
+  describe("when we populate the layout2", () => {
     describe("when calling next", () => {
       const deck = createAllCards();
       const layout = populate(deck);
-      console.log("before : \n", layout.show());
+      //console.log("before : \n", layout.show());
       const stockLength = chainLength(layout.stock);
       layout.nextCard();
-      console.log("after : \n", layout.show());
+      //console.log("after : \n", layout.show());
       describe("when looking at the discard pile", () => {
         const discard = layout.discard;
         it("should have one card in the discard pile", () => {
           expect(discard.child).not.toBeNull();
-          expect(chainLength(discard)).toBe(1);
+          expect(numberOfCardsInChain(discard)).toBe(1);
         });
         const card = discard.child;
         it(`should have all cards should be face up, namely ${card}`, () => {
-          expect(card.faceUp).toBeTruthy();
+          expect(card instanceof Card && card.faceUp).toBeTruthy();
         });
       });
       describe("when looking at the stock", () => {
@@ -41,32 +46,32 @@ describe("Layout", () => {
         });
       });
     });
-    describe("when calling next and the stock is empty", () => {
-      const deck = createAllCards();
-      const layout = populate(deck);
-      console.log("before : \n", layout.show());
-      const stockLength = chainLength(layout.stock);
-      const stockString = showChain(layout.stock);
-      while (layout.stock.child) {
-        layout.nextCard();
-      }
+  });
+  describe("when calling next and the stock is empty", () => {
+    const deck = createAllCards();
+    const layout = populate(deck);
+    //console.log("before : \n", layout.show());
+    const stockLength = chainLength(layout.stock);
+    const stockString = showChain(layout.stock);
+    while (layout.stock.child) {
       layout.nextCard();
-      console.log("after : \n", layout.show());
-      describe("when looking at the discard pile", () => {
-        const discard = layout.discard;
-        it("should have zero cards in the discard pile", () => {
-          expect(discard.child).toBeNull();
-          expect(chainLength(discard)).toBe(0);
-        });
+    }
+    layout.nextCard();
+    //console.log("after : \n", layout.show());
+    describe("when looking at the discard pile", () => {
+      const discard = layout.discard;
+      it("should have zero cards in the discard pile", () => {
+        expect(discard.child).toBeUndefined();
+        expect(numberOfCardsInChain(discard)).toBe(0);
       });
-      describe("when looking at the stock", () => {
-        const stock = layout.stock;
-        it("should be same length when populated", () => {
-          expect(chainLength(stock)).toBe(stockLength);
-        });
-        it("should have the same cards as when populated", () => {
-          expect(showChain(stock)).toBe(stockString);
-        });
+    });
+    describe("when looking at the stock", () => {
+      const stock = layout.stock;
+      it("should be same length when populated", () => {
+        expect(chainLength(stock)).toBe(stockLength);
+      });
+      it("should have the same cards as when populated", () => {
+        expect(showChain(stock)).toBe(stockString);
       });
     });
   });

@@ -2,12 +2,16 @@ import Card from "./Card";
 import Discard from "./Discard";
 import Foundation from "./Foundation";
 import Link from "./Link";
-import { forEachCardInChain, lastChild, showChain } from "./chainUtils";
+import {
+  forEachCardInChain,
+  lastChild,
+  reverseChainAfter,
+  showChain,
+} from "./chainUtils";
 import Stock from "./Stock";
 import Tableau from "./Tableau";
 
-export const forceMove = (source: Card, target: Link, faceUp: boolean) => {
-  source.faceUp = faceUp;
+export const forceMove = (source: Card, target: Link) => {
   if (source.parent) {
     source.parent.setChild();
   }
@@ -39,26 +43,22 @@ export default class Layout {
   }
 
   nextCard() {
-    if (this.stock.child) {
-      //the stock is not depleated so we can move the last child of the stock to the last child of the discard
-      const source = lastChild(this.stock.child);
-      const target = lastChild(this.discard);
-      if (source instanceof Card) {
-        forceMove(source, target, true);
-      }
-    } else {
-      //the stock is depleated
-      //we need to move the discard pile over to the stock pile
-      const source = this.discard.child;
-      if (source) {
-        //we have something to move
-        const target = this.stock;
-        forceMove(source, target, false);
-        //also turn all the stock cards face down
-        forEachCardInChain((card: Card) => {
-          card.faceUp = false;
-        }, target.child);
-      }
+    const source = lastChild(this.stock);
+    const target = lastChild(this.discard);
+    if (source instanceof Card) {
+      //the stock is not depleated, so we can simply move the card over;
+      forceMove(source, target);
+      //and turn the card face up
+      source.faceUp = true;
+    } else if (this.discard.child && this.discard.child instanceof Card) {
+      //the stock is depleated and there are cards in the discard, so we move the deck back to the stock
+      forceMove(this.discard.child, source);
+      //and turn them over
+      forEachCardInChain((card: Card) => {
+        card.faceUp = false;
+      }, this.stock);
+      //and finally reverse them
+      reverseChainAfter(this.stock);
     }
   }
 }
