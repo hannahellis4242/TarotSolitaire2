@@ -61,6 +61,15 @@ export default class Layout {
       reverseChainAfter(this.stock);
     }
   }
+  move(source: Link, target: Link): boolean {
+    if (target.location() === "discard" || target.location() === "stock") {
+      return false;
+    }
+    if (source instanceof Card) {
+      return target.setChild(source);
+    }
+    return false;
+  }
 }
 
 export const populate = (deck: Card[]): Layout => {
@@ -69,6 +78,10 @@ export const populate = (deck: Card[]): Layout => {
     for (let j = i; j < layout.tableau.length; ++j) {
       const location = lastChild(layout.tableau[j]);
       location.forceChild(deck.shift());
+    }
+    const last = lastChild(layout.tableau[i]);
+    if (last instanceof Card) {
+      last.faceUp = true;
     }
   }
   let parent = layout.stock;
