@@ -328,14 +328,16 @@ describe("Layout", () => {
       () => {}
     );
     testMovement(
-      "move the tower onto the tower",
+      "move the tower onto the star",
       layout,
       tableau[6],
       tableau[4],
       lastChild,
       lastChild,
       true,
-      () => {}
+      (s) => {
+        console.log(s);
+      }
     );
     testMovement(
       "move the six of wands onto the seven of swords",
@@ -545,19 +547,6 @@ describe("Layout", () => {
       lastChild,
       true,
       () => {}
-    );
-    layout.nextCard();
-    testMovement(
-      "move six of cups to five of cups on the foundation",
-      layout,
-      foundation[1],
-      discard,
-      lastChild,
-      lastChild,
-=======
->>>>>>> 6d990d1 (Fixing layout test)
-      true,
-      (s) => console.log(s)
     );
   });
 });

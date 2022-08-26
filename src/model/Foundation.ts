@@ -1,5 +1,4 @@
 import Card from "./Card";
-import Layout from "./Layout";
 import { Location } from "./Location";
 import PlayArea from "./PlayArea";
 
