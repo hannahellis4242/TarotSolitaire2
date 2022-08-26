@@ -1,4 +1,4 @@
-import View from "./view/View";
+/*import View from "./view/View";
 
 (() => {
   const view = new View();
@@ -10,4 +10,13 @@ import View from "./view/View";
     view.createTarget(300, 100 + i * 200, "green");
     view.createTarget(400, 100 + i * 200, "blue");
   }
-})();
+})();*/
+
+import StartPage from "./view/StartPage";
+import VictoryPage from "./view/VictoryPage";
+import ViewModel from "./view/ViewModel";
+
+const vm = new ViewModel(document);
+vm.registerPage("start", new StartPage(vm));
+vm.registerPage("victory", new VictoryPage(vm));
+vm.setPage("start");
