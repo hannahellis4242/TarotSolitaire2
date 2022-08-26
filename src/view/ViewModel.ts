@@ -1,4 +1,3 @@
-import { clear } from "console";
 import Card from "../model/Card";
 import Layout from "../model/Layout";
 import Page from "./Page";
@@ -25,14 +24,14 @@ export default class ViewModel {
     const page = this.pageMap.get(key);
     if (page) {
       this.page = page;
-      clear();
+      this.clear();
       this.page.draw(this.body);
     }
   }
   update(model: Layout, cardMap: Map<string, Card>) {
     if (this.page) {
       this.page.update(model, cardMap);
-      clear();
+      this.clear();
       this.page.draw(this.body);
     }
   }

@@ -12,25 +12,31 @@ export default class StartPage implements Page {
   }
   draw(parent: HTMLElement): void {
     const main = document.createElement("main");
+    main.id = "start";
     {
       const header = document.createElement("header");
-      header.innerText = this.text;
+      header.innerText = this.title;
       main.appendChild(header);
+    }
+    {
+      const pannel = document.createElement("section");
+      pannel.id = "pannel";
+      {
+        const button = document.createElement("button");
+        button.innerText = "start game";
+        button.onclick = () => this.view.setPage("victory");
+        pannel.appendChild(button);
+      }
+      main.appendChild(pannel);
     }
     {
       const about = document.createElement("p");
       about.innerText = this.text;
       main.appendChild(about);
     }
-    {
-      const button = document.createElement("button");
-      button.innerText = "start game";
-      button.onclick = () => this.view.setPage("victory");
-      main.appendChild(button);
-    }
     parent.appendChild(main);
   }
   update(model: Layout, cardMap: Map<string, Card>): void {
-    throw new Error("Method not implemented.");
+    //we don't care about this
   }
 }
