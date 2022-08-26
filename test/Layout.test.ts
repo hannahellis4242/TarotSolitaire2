@@ -12,6 +12,7 @@ import {
 import { shuffle } from "../src/model/Deck";
 import Layout, { populate } from "../src/model/Layout";
 import Link from "../src/model/Link";
+import Tableau from "../src/model/Tableau";
 import { createAllCards } from "./utils";
 
 const testMovement = (
@@ -63,6 +64,13 @@ const testMovement = (
     expect(chainLength(targetLocation)).toBe(newTargetLength);
     expect(chainLength(sourceLocation)).toBe(newSourceLength);
     logger(layout.show());
+    //check that any exposed cards get shown face up
+    if (sourceLocation instanceof Tableau) {
+      const last = lastChild(sourceLocation);
+      if (last instanceof Card) {
+        expect(last.faceUp).toBeTruthy();
+      }
+    }
   }
 };
 
@@ -226,5 +234,18 @@ describe("Layout", () => {
       true,
       () => {}
     );
+<<<<<<< HEAD
+=======
+    testMovement(
+      "move two of cups into the ace of cups on the foundation",
+      layout,
+      foundation[1],
+      tableau[6],
+      lastChild,
+      lastChild,
+      true,
+      () => {}
+    );
+>>>>>>> 6fe0a84 (Move checks for exposed cards into testing function)
   });
 });
