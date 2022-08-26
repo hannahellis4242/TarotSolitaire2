@@ -12,7 +12,7 @@ export default class StartPage implements Page {
   }
   draw(parent: HTMLElement): void {
     const main = document.createElement("main");
-    main.id = "start";
+    main.id = "screen";
     {
       const header = document.createElement("header");
       header.innerText = this.title;

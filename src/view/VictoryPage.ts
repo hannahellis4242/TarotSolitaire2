@@ -7,16 +7,22 @@ export default class VictoryPage implements Page {
   constructor(private view: ViewModel) {}
   draw(parent: HTMLElement): void {
     const main = document.createElement("main");
+    main.id = "screen";
     {
       const header = document.createElement("header");
       header.innerText = "Well done you have won!";
       main.appendChild(header);
     }
     {
-      const button = document.createElement("button");
-      button.innerText = "play again";
-      button.onclick = () => this.view.setPage("start");
-      main.appendChild(button);
+      const pannel = document.createElement("section");
+      pannel.id = "pannel";
+      {
+        const button = document.createElement("button");
+        button.innerText = "play again";
+        button.onclick = () => this.view.setPage("start");
+        pannel.appendChild(button);
+      }
+      main.appendChild(pannel);
     }
     parent.appendChild(main);
   }
