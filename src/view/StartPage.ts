@@ -21,8 +21,8 @@ export default class StartPage implements Page {
       pannel.id = "pannel";
       {
         const button = document.createElement("button");
-        button.innerText = "start game";
-        button.onclick = () => this.view.setPage("victory");
+        button.innerText = "start";
+        button.onclick = () => this.view.setPage("game");
         pannel.appendChild(button);
       }
       {

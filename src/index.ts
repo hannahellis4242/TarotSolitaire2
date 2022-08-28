@@ -16,9 +16,11 @@ import StartPage from "./view/StartPage";
 import VictoryPage from "./view/VictoryPage";
 import AboutPage from "./view/AboutPage";
 import ViewModel from "./view/ViewModel";
+import GamePage from "./view/GamePage";
 
 const vm = new ViewModel(document);
 vm.registerPage("start", new StartPage(vm));
 vm.registerPage("victory", new VictoryPage(vm));
 vm.registerPage("about", new AboutPage(vm));
+vm.registerPage("game", new GamePage(vm));
 vm.setPage("start");
