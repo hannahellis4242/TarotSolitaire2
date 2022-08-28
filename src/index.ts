@@ -14,9 +14,11 @@
 
 import StartPage from "./view/StartPage";
 import VictoryPage from "./view/VictoryPage";
+import AboutPage from "./view/AboutPage";
 import ViewModel from "./view/ViewModel";
 
 const vm = new ViewModel(document);
 vm.registerPage("start", new StartPage(vm));
 vm.registerPage("victory", new VictoryPage(vm));
+vm.registerPage("about", new AboutPage(vm));
 vm.setPage("start");

@@ -5,10 +5,8 @@ import ViewModel from "./ViewModel";
 
 export default class StartPage implements Page {
   title: string;
-  text: string;
   constructor(private view: ViewModel) {
     this.title = "Welcome to Tarot Solitare";
-    this.text = "about";
   }
   draw(parent: HTMLElement): void {
     const main = document.createElement("main");
@@ -27,12 +25,13 @@ export default class StartPage implements Page {
         button.onclick = () => this.view.setPage("victory");
         pannel.appendChild(button);
       }
+      {
+        const button = document.createElement("button");
+        button.innerText = "about";
+        button.onclick = () => this.view.setPage("about");
+        pannel.appendChild(button);
+      }
       main.appendChild(pannel);
-    }
-    {
-      const about = document.createElement("p");
-      about.innerText = this.text;
-      main.appendChild(about);
     }
     parent.appendChild(main);
   }
