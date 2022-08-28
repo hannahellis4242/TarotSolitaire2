@@ -1,0 +1,30 @@
+#table {
+  background-color: #00512c;
+  margin: 0;
+  height: 100vh;
+}
+
+#table header {
+  background-color: #432616;
+  height: fit-content;
+  width: 100%;
+  display: inline-block;
+  overflow: auto;
+}
+
+.right {
+  float: right;
+}
+
+#table header button {
+  color: #000000;
+  background: #ffffff2c;
+  border: none;
+  height: 100%;
+  margin: 0;
+  font-size: large;
+}
+
+#table header button:hover {
+  background: #ffffff;
+}
