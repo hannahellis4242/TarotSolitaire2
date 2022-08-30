@@ -23,4 +23,4 @@ vm.registerPage("start", new StartPage(vm));
 vm.registerPage("victory", new VictoryPage(vm));
 vm.registerPage("about", new AboutPage(vm));
 vm.registerPage("game", new GamePage(vm));
-vm.setPage("start");
+vm.setPage("game");
