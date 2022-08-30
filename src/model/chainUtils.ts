@@ -1,4 +1,3 @@
-import colors from "colors";
 import Card from "./Card";
 import Link from "./Link";
 
@@ -8,9 +7,9 @@ export const linkId = (link?: Link): string => {
   }
   if (link instanceof Card) {
     const str = link.id.toString();
-    return link.faceUp ? colors.underline(str) : str;
+    return link.faceUp ? str + "*" : str;
   }
-  return colors.bold(link.location());
+  return link.location();
 };
 
 export const showChain = (link?: Link, max?: number): string => {
