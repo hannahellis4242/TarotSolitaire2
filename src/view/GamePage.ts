@@ -1,17 +1,26 @@
 import random from "random";
 import seedrandom from "seedrandom";
 import Card from "../model/Card";
+import { forEachCardInChain } from "../model/chainUtils";
 import { createAllCards, shuffle } from "../model/Deck";
 import Layout, { populate } from "../model/Layout";
 import Page from "./Page";
 import ViewModel from "./ViewModel";
+import { Location } from "../model/Location";
+
+const locationToPosition = (
+  location: Location,
+  index?: number
+): { x: number; y: number } => {
+  return { x: 0, y: 0 };
+};
 
 export default class GamePage implements Page {
   private model?: Layout;
-  private cardMap: Map<string, Card>;
+  private cardMap: Map<HTMLElement, Card>;
   private modal?: HTMLElement;
   constructor(private view: ViewModel) {
-    this.cardMap = new Map<string, Card>();
+    this.cardMap = new Map<HTMLElement, Card>();
   }
   private createTable(): HTMLElement {
     const main = document.createElement("main");
@@ -94,9 +103,22 @@ export default class GamePage implements Page {
     }
     return modal;
   }
+  private createCard(card: Card, location: Location, parent: HTMLElement) {
+    const element = document.createElement("div");
+    element.classList.add("card");
+    element.classList.add(`card_${card.id}`);
+    if (!card.faceUp) {
+      element.classList.add("facedown");
+    }
+    this.cardMap.set(element, card);
+  }
   private createLayout(): HTMLElement {
     const section = document.createElement("section");
-
+    this.cardMap.clear();
+    const { stock, discard } = this.model;
+    forEachCardInChain((card) => {
+      this.createCard(card, card.location, section);
+    }, stock.child);
     return section;
   }
 
