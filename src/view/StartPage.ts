@@ -35,7 +35,7 @@ export default class StartPage implements Page {
     }
     parent.appendChild(main);
   }
-  update(model: Layout, cardMap: Map<string, Card>): void {
+  update(model: Layout): void {
     //we don't care about this
   }
 }

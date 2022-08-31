@@ -25,6 +25,10 @@ export const chainLength = (link?: Link): number => {
   return link ? 1 + chainLength(link.child) : 0;
 };
 
+export const chainDepth = (link?: Link): number => {
+  return link ? 1 + chainDepth(link.parent) : 0;
+};
+
 export const numberOfCardsInChain = (link?: Link): number => {
   if (link instanceof Card) {
     return chainLength(link);

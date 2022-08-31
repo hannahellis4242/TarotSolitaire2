@@ -28,9 +28,9 @@ export default class ViewModel {
       this.page.draw(this.body);
     }
   }
-  update(model: Layout, cardMap: Map<string, Card>) {
+  update(model: Layout) {
     if (this.page) {
-      this.page.update(model, cardMap);
+      this.page.update(model);
       this.clear();
       this.page.draw(this.body);
     }
