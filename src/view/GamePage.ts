@@ -10,7 +10,7 @@ import { Location } from "../model/Location";
 import Link from "../model/Link";
 
 const xs = [1, 11, 21, 31, 41, 51, 61, 71, 81, 91];
-const ys = [10, 21];
+const ys = [10, 30];
 const zTop = 78;
 
 const cardPosition = (
@@ -26,7 +26,7 @@ const cardPosition = (
     case "foundation":
       return { x: xs[4 + index], y: ys[0], z: zTop - depth };
     case "tableau":
-      return { x: xs[index], y: ys[1] + depth, z: zTop - depth };
+      return { x: xs[index], y: ys[1] + depth, z: depth };
     case "unplaced":
       return { x: 100, y: 100, z: 0 };
   }
@@ -131,11 +131,11 @@ const createLayout = (
   parent: HTMLElement
 ) => {
   console.log(model.show());
-  const { stock, discard } = model;
+  const { stock, discard, foundation, tableau } = model;
   //stock
   {
     const last = lastChild(stock);
-    const location = createLocation(last, stock.location(), () => {
+    const location = createLocation(last, stock.location(), 0, () => {
       model.nextCard();
       updateFn();
     });
@@ -144,19 +144,37 @@ const createLayout = (
   //discard
   {
     const last = lastChild(discard);
-    const location = createLocation(last, discard.location(), () => {});
+    const location = createLocation(last, discard.location(), 0, () => {});
     parent.appendChild(location);
+  }
+  //foundation
+  {
+    foundation.forEach((x, i) => {
+      const last = lastChild(x);
+      const location = createLocation(last, x.location(), i, () => {});
+      parent.appendChild(location);
+    });
+  }
+  //tableau
+  {
+    tableau.forEach((x, i) => {
+      forEachCardInChain((card) => {
+        const location = createLocation(card, x.location(), i, () => {});
+        parent.appendChild(location);
+      }, x);
+    });
   }
 };
 const createLocation = (
   last: Link,
   location: Location,
+  index: number,
   action: () => void
 ): HTMLElement => {
   const element =
     last instanceof Card
-      ? createCard(last, location, 0)
-      : createSlot(location, 0);
+      ? createCard(last, location, index)
+      : createSlot(location, index);
   switch (location) {
     case "stock":
       element.onclick = () => {
