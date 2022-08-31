@@ -1,7 +1,7 @@
 import random from "random";
 import seedrandom from "seedrandom";
 import Card from "../model/Card";
-import { chainDepth, forEachCardInChain } from "../model/chainUtils";
+import { chainDepth, forEachCardInChain, lastChild } from "../model/chainUtils";
 import { createAllCards, shuffle } from "../model/Deck";
 import Layout, { populate } from "../model/Layout";
 import Page from "./Page";
@@ -18,9 +18,9 @@ const cardPosition = (
 ): { x: number; y: number } => {
   switch (location) {
     case "stock":
-      return { x: xs[0] + depth * 0.1, y: ys[0] };
+      return { x: Math.floor(xs[0] + depth * 0.05), y: ys[0] };
     case "discard":
-      return { x: xs[1] + depth * 0.1, y: ys[0] };
+      return { x: Math.floor(xs[1] + depth * 0.1), y: ys[0] };
     case "foundation":
       return { x: xs[4 + index], y: ys[0] };
     case "tableau":
@@ -139,14 +139,24 @@ export default class GamePage implements Page {
     const depth = chainDepth(card) - 1;
     const position = cardPosition(location, index, depth);
     setPosition(element, position);
+    parent.appendChild(element);
   }
   private createLayout(): HTMLElement {
     const section = document.createElement("section");
     this.cardMap.clear();
-    const { stock } = this.model;
-    forEachCardInChain((card) => {
-      this.createCard(card, "stock", 0, section);
-    }, stock.child);
+    if (this.model) {
+      const { stock } = this.model;
+      /*{
+        const lastStockCard = lastChild(stock);
+        console.log(lastStockCard);
+        if (lastStockCard instanceof Card) {
+          this.createCard(lastStockCard, "stock", 0, section);
+        }
+      }*/
+      forEachCardInChain((card) => {
+        this.createCard(card, "stock", 0, section);
+      }, stock.child);
+    }
     return section;
   }
 
