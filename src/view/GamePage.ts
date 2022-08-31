@@ -48,11 +48,12 @@ const createCard = (
 ): HTMLElement => {
   const element = document.createElement("div");
   element.classList.add("card");
-  element.id = `card_${card.id}`;
-  element.classList.add(location);
-  if (!card.faceUp) {
+  if (card.faceUp) {
+    element.id = `card_${card.id}`;
+  } else {
     element.classList.add("facedown");
   }
+  element.classList.add(location);
   const depth = chainDepth(card) - 1;
   const position = cardPosition(location, index, depth);
   setPosition(element, position);
@@ -62,6 +63,7 @@ const createCard = (
 const createSlot = (location: Location, index: number): HTMLElement => {
   const element = document.createElement("div");
   element.classList.add("slot");
+  element.classList.add(location);
   const position = cardPosition(location, index, 0);
   setPosition(element, position);
   return element;
