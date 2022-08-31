@@ -20,9 +20,9 @@ const cardPosition = (
 ): { x: number; y: number; z: number } => {
   switch (location) {
     case "stock":
-      return { x: Math.floor(xs[0] + depth * 0), y: ys[0], z: zTop - depth };
+      return { x: xs[0], y: ys[0], z: zTop - depth };
     case "discard":
-      return { x: Math.floor(xs[1] + depth * 0.1), y: ys[0], z: zTop - depth };
+      return { x: xs[1], y: ys[0], z: zTop - depth };
     case "foundation":
       return { x: xs[4 + index], y: ys[0], z: zTop - depth };
     case "tableau":
@@ -149,20 +149,24 @@ const createLayout = (
   }
 };
 const createLocation = (
-  lastStockCard: Link,
+  last: Link,
   location: Location,
   action: () => void
 ): HTMLElement => {
-  if (lastStockCard instanceof Card) {
-    const element = createCard(lastStockCard, "stock", 0);
-    element.onclick = () => {
-      action();
-    };
-    return element;
-  } else {
-    const element = createSlot("stock", 0);
-    return element;
+  const element =
+    last instanceof Card
+      ? createCard(last, location, 0)
+      : createSlot(location, 0);
+  switch (location) {
+    case "stock":
+      element.onclick = () => {
+        action();
+      };
+      break;
+    default:
+      element.onclick = () => {};
   }
+  return element;
 };
 
 export default class GamePage implements Page {
@@ -174,9 +178,9 @@ export default class GamePage implements Page {
     this.cardMap = new Map<HTMLElement, Card>();
   }
   private updateLayout() {
-    if (this.layout) {
+    if (this.layout && this.model) {
       this.layout.replaceChildren();
-      this.createLayout(this.layout);
+      createLayout(this.model, () => this.updateLayout(), this.layout);
     }
   }
   private createGame(): HTMLElement {
@@ -204,38 +208,14 @@ export default class GamePage implements Page {
     return main;
   }
 
-  private createLayout(
-    model: Layout,
-    updateFn: () => void,
-    parent: HTMLElement
-  ) {
-    this.cardMap.clear();
-    if (this.model) {
-      console.log(this.model.show());
-      const { stock } = this.model;
-      {
-        const lastStockCard = lastChild(stock);
-        if (lastStockCard instanceof Card) {
-          const element = createCard(lastStockCard, "stock", 0);
-          element.onclick = () => {
-            this.model.nextCard();
-            this.updateLayout();
-          };
-          parent.appendChild(element);
-        } else {
-          const element = createSlot("stock", 0);
-          parent.appendChild(element);
-        }
-      }
-    }
-  }
-
   draw(parent: HTMLElement): void {
     this.modal = createModal((s) => this.start(s));
     const main = this.createGame();
     this.layout = document.createElement("section");
     this.cardMap.clear();
-    createLayout(this.model, () => this.updateLayout(), this.layout);
+    if (this.model) {
+      createLayout(this.model, () => this.updateLayout(), this.layout);
+    }
     main.appendChild(this.layout);
     parent.appendChild(main);
     parent.appendChild(this.modal);
