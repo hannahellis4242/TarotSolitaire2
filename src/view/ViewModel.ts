@@ -1,4 +1,3 @@
-import Card from "../model/Card";
 import Layout from "../model/Layout";
 import Page from "./Page";
 

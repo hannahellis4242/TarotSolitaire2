@@ -1,10 +1,13 @@
-#table {
+#game {
   background-color: #00512c;
   margin: 0;
   height: 100vh;
 }
 
-#table header {
+#game header {
+  position: absolute;
+  top: 0;
+  left: 0;
   background-color: #432616;
   height: fit-content;
   width: 100%;
@@ -16,7 +19,7 @@
   float: right;
 }
 
-#table header button {
+#game header button {
   color: #000000;
   background: #ffffff5a;
   border: none;
@@ -25,6 +28,29 @@
   font-size: large;
 }
 
-#table header button:hover {
+#game header button:hover {
   background: #ffffff;
+}
+
+.card {
+  position: absolute;
+  aspect-ratio: 7/12;
+  width: 5%;
+  background-size: 100% 100%;
+}
+
+.stock {
+  cursor: pointer;
+}
+
+.facedown {
+  background-image: url("/img/backing1.png");
+}
+
+.slot {
+  position: absolute;
+  aspect-ratio: 7/12;
+  width: 5%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
 }

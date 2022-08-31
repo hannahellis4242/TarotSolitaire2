@@ -3,15 +3,6 @@ body {
   margin: 0;
 }
 
-.card {
-  position: absolute;
-  aspect-ratio: 7/12;
-  background-color: red;
-  border: 2px soild white;
-  width: 5%;
-  cursor: grab;
-}
-
 .dragging {
   cursor: grabbing;
   opacity: 0.2;
