@@ -9,10 +9,16 @@
   top: 0;
   left: 0;
   background-color: #432616;
-  height: fit-content;
+  height: 25px;
   width: 100%;
   display: inline-block;
   overflow: auto;
+}
+
+#game section {
+  position: absolute;
+  top: 25px;
+  width: 100%;
 }
 
 .right {
@@ -35,7 +41,6 @@
 .card {
   position: absolute;
   aspect-ratio: 7/12;
-  width: 5%;
   background-size: 100% 100%;
 }
 
@@ -50,7 +55,6 @@
 .slot {
   position: absolute;
   aspect-ratio: 7/12;
-  width: 5%;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 3px;
 }

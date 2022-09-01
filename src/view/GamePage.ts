@@ -8,27 +8,28 @@ import Page from "./Page";
 import ViewModel from "./ViewModel";
 import { Location } from "../model/Location";
 import Link from "../model/Link";
+import Grid from "./utils/Grid";
 
-const xs = [1, 11, 21, 31, 41, 51, 61, 71, 81, 91];
-const ys = [10, 30];
 const zTop = 78;
 
 const cardPosition = (
   location: Location,
   index: number,
-  depth: number
+  depth: number,
+  grid: Grid
 ): { x: number; y: number; z: number } => {
   switch (location) {
     case "stock":
-      return { x: xs[0], y: ys[0], z: zTop - depth };
+      return { ...grid.getPosition(0, 0), z: zTop - depth };
     case "discard":
-      return { x: xs[1], y: ys[0], z: zTop - depth };
+      return { ...grid.getPosition(1, 0), z: zTop - depth };
     case "foundation":
-      return { x: xs[4 + index], y: ys[0], z: zTop - depth };
+      return { ...grid.getPosition(4 + index, 0), z: zTop - depth };
     case "tableau":
-      return { x: xs[index], y: ys[1] + depth, z: depth };
+      const pos = grid.getPosition(index, 1);
+      return { x: pos.x, y: pos.y + depth, z: depth };
     case "unplaced":
-      return { x: 100, y: 100, z: 0 };
+      return { x: -100, y: -100, z: 0 };
   }
 };
 
@@ -36,15 +37,16 @@ const setPosition = (
   card: HTMLElement,
   pos: { x: number; y: number; z: number }
 ) => {
-  card.style.left = pos.x + "%";
-  card.style.top = pos.y + "%";
+  card.style.left = `${pos.x}px`;
+  card.style.top = `${pos.y}px`;
   card.style.zIndex = pos.z.toString();
 };
 
 const createCard = (
   card: Card,
   location: Location,
-  index: number
+  index: number,
+  grid: Grid
 ): HTMLElement => {
   const element = document.createElement("div");
   element.classList.add("card");
@@ -55,16 +57,26 @@ const createCard = (
   }
   element.classList.add(location);
   const depth = chainDepth(card) - 1;
-  const position = cardPosition(location, index, depth);
+  const position = cardPosition(location, index, depth, grid);
+  const { width, height } = grid.getCardDimentions();
+  element.style.width = `${width}px`;
+  element.style.height = `${height}px`;
   setPosition(element, position);
   return element;
 };
 
-const createSlot = (location: Location, index: number): HTMLElement => {
+const createSlot = (
+  location: Location,
+  index: number,
+  grid: Grid
+): HTMLElement => {
   const element = document.createElement("div");
   element.classList.add("slot");
   element.classList.add(location);
-  const position = cardPosition(location, index, 0);
+  const position = cardPosition(location, index, 0, grid);
+  const { width, height } = grid.getCardDimentions();
+  element.style.width = `${width}px`;
+  element.style.height = `${height}px`;
   setPosition(element, position);
   return element;
 };
@@ -132,12 +144,16 @@ const createLayout = (
   updateFn: () => void,
   parent: HTMLElement
 ) => {
+  const grid = new Grid(
+    { width: window.innerWidth, height: window.innerHeight },
+    0.5
+  );
   console.log(model.show());
   const { stock, discard, foundation, tableau } = model;
   //stock
   {
     const last = lastChild(stock);
-    const location = createLocation(last, stock.location(), 0, () => {
+    const location = createLocation(last, stock.location(), 0, grid, () => {
       model.nextCard();
       updateFn();
     });
@@ -146,14 +162,20 @@ const createLayout = (
   //discard
   {
     const last = lastChild(discard);
-    const location = createLocation(last, discard.location(), 0, () => {});
+    const location = createLocation(
+      last,
+      discard.location(),
+      0,
+      grid,
+      () => {}
+    );
     parent.appendChild(location);
   }
   //foundation
   {
     foundation.forEach((x, i) => {
       const last = lastChild(x);
-      const location = createLocation(last, x.location(), i, () => {});
+      const location = createLocation(last, x.location(), i, grid, () => {});
       parent.appendChild(location);
     });
   }
@@ -161,7 +183,7 @@ const createLayout = (
   {
     tableau.forEach((x, i) => {
       forEachCardInChain((card) => {
-        const location = createLocation(card, x.location(), i, () => {});
+        const location = createLocation(card, x.location(), i, grid, () => {});
         parent.appendChild(location);
       }, x);
     });
@@ -171,12 +193,13 @@ const createLocation = (
   last: Link,
   location: Location,
   index: number,
+  grid: Grid,
   action: () => void
 ): HTMLElement => {
   const element =
     last instanceof Card
-      ? createCard(last, location, index)
-      : createSlot(location, index);
+      ? createCard(last, location, index, grid)
+      : createSlot(location, index, grid);
   switch (location) {
     case "stock":
       element.onclick = () => {
@@ -192,13 +215,15 @@ const createLocation = (
 export default class GamePage implements Page {
   private model?: Layout;
   private cardMap: Map<HTMLElement, Card>;
+
+  private main?: HTMLElement;
   private modal?: HTMLElement;
   private layout?: HTMLElement;
   constructor(private view: ViewModel) {
     this.cardMap = new Map<HTMLElement, Card>();
   }
   private updateLayout() {
-    if (this.layout && this.model) {
+    if (this.main && this.layout && this.model) {
       this.layout.replaceChildren();
       createLayout(this.model, () => this.updateLayout(), this.layout);
     }
@@ -230,14 +255,16 @@ export default class GamePage implements Page {
 
   draw(parent: HTMLElement): void {
     this.modal = createModal((s) => this.start(s));
-    const main = this.createGame();
+    this.main = this.createGame();
     this.layout = document.createElement("section");
+    console.log(window.innerWidth);
+    console.log(window.innerHeight);
     this.cardMap.clear();
     if (this.model) {
       createLayout(this.model, () => this.updateLayout(), this.layout);
     }
-    main.appendChild(this.layout);
-    parent.appendChild(main);
+    this.main.appendChild(this.layout);
+    parent.appendChild(this.main);
     parent.appendChild(this.modal);
   }
   update(model: Layout): void {
