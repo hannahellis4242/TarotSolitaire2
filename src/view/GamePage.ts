@@ -37,9 +37,9 @@ const setPosition = (
   card: HTMLElement,
   pos: { x: number; y: number; z: number }
 ) => {
-  card.style.left = `${pos.x}px`;
-  card.style.top = `${pos.y}px`;
-  card.style.zIndex = pos.z.toString();
+  /*card.style.left = `${pos.x}px`;
+  card.style.top = `${pos.y}px`;*/
+  //card.style.zIndex = pos.z.toString();
 };
 
 const createCard = (
@@ -55,12 +55,9 @@ const createCard = (
   } else {
     element.classList.add("facedown");
   }
-  element.classList.add(location);
+  element.classList.add(`loc_${location}`);
   const depth = chainDepth(card) - 1;
   const position = cardPosition(location, index, depth, grid);
-  const { width, height } = grid.getCardDimentions();
-  element.style.width = `${width}px`;
-  element.style.height = `${height}px`;
   setPosition(element, position);
   return element;
 };
@@ -72,11 +69,8 @@ const createSlot = (
 ): HTMLElement => {
   const element = document.createElement("div");
   element.classList.add("slot");
-  element.classList.add(location);
+  element.classList.add(`loc_${location}`);
   const position = cardPosition(location, index, 0, grid);
-  const { width, height } = grid.getCardDimentions();
-  element.style.width = `${width}px`;
-  element.style.height = `${height}px`;
   setPosition(element, position);
   return element;
 };
@@ -152,15 +146,20 @@ const createLayout = (
   const { stock, discard, foundation, tableau } = model;
   //stock
   {
+    const div = document.createElement("div");
+    div.id = "stock";
     const last = lastChild(stock);
     const location = createLocation(last, stock.location(), 0, grid, () => {
       model.nextCard();
       updateFn();
     });
-    parent.appendChild(location);
+    div.appendChild(location);
+    parent.appendChild(div);
   }
   //discard
   {
+    const div = document.createElement("div");
+    div.id = "discard";
     const last = lastChild(discard);
     const location = createLocation(
       last,
@@ -169,23 +168,30 @@ const createLayout = (
       grid,
       () => {}
     );
-    parent.appendChild(location);
+    div.appendChild(location);
+    parent.appendChild(div);
   }
   //foundation
   {
     foundation.forEach((x, i) => {
+      const div = document.createElement("div");
+      div.id = `foundation-${i}`;
       const last = lastChild(x);
       const location = createLocation(last, x.location(), i, grid, () => {});
-      parent.appendChild(location);
+      div.appendChild(location);
+      parent.appendChild(div);
     });
   }
   //tableau
   {
     tableau.forEach((x, i) => {
+      const div = document.createElement("div");
+      div.id = `tableau-${i}`;
       forEachCardInChain((card) => {
         const location = createLocation(card, x.location(), i, grid, () => {});
-        parent.appendChild(location);
+        div.appendChild(location);
       }, x);
+      parent.appendChild(div);
     });
   }
 };
