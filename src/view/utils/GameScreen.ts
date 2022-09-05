@@ -47,7 +47,7 @@ export default class GameScreen {
             return top;
           } else if (index === 1) {
             return tableauTop;
-          } else {
+          } else if (index < 31) {
             return tableauTop + (index - 1) * card.overlap;
           }
         }

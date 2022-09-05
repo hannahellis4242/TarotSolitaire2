@@ -98,6 +98,7 @@ describe("GameScreen", () => {
           [28, 414],
           [29, 424],
           [30, 434],
+          [31, undefined],
         ].forEach(([input, expected]) => {
           it(`should give back ${expected} when given and index of ${input}`, () => {
             expect(screen.grid("vertical", input)).toBe(expected);
