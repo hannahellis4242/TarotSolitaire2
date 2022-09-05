@@ -129,12 +129,7 @@ const createModal = (start: (s?: string) => void): HTMLElement => {
   return modal;
 };
 
-const createLayout = (
-  model: Layout,
-  updateFn: () => void,
-  parent: HTMLElement
-) => {
-  console.log(model.show());
+const sizeLayout = () => {
   const vw = Math.max(
     document.documentElement.clientWidth || 0,
     window.innerWidth || 0
@@ -147,6 +142,15 @@ const createLayout = (
   console.log(`width:${vw}\nheight:${vh}`);
   console.log(screen);
   console.log(`width:${screen.width()}\nheight:${screen.height()}`);
+};
+
+const createLayout = (
+  model: Layout,
+  updateFn: () => void,
+  parent: HTMLElement
+) => {
+  console.log(model.show());
+  window.onresize = sizeLayout;
   const { stock, discard, foundation, tableau } = model;
   //stock
   {

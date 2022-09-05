@@ -8,8 +8,8 @@ const buildScreen = (width: number) => {
   const parameters = new TarotParameters(
     width,
     0.1,
-    { horizontal: 0.25, vertical: 0.1 },
-    { horizontal: 0.25, vertical: 0.1 },
+    { horizontal: 0.5, vertical: 0.1 },
+    { horizontal: 0.5, vertical: 0.1 },
     25
   );
   return new GameScreen(parameters);
@@ -27,5 +27,5 @@ export const fitScreen = (target: Rectangle) => {
   const fitWidth = minFindAuto((width) => {
     return calculateScreen(width, target);
   }, 0.5);
-  return buildScreen(Math.round(fitWidth));
+  return buildScreen(Math.floor(fitWidth));
 };
