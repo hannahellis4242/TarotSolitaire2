@@ -77,6 +77,6 @@ const minFindRecursive = (
 };
 
 export const minFindAuto = (fn: (x: number) => number, tol: number) => {
-  const [a, b] = minFindRecursive([-100, 100], fn, tol);
+  const [a, b] = minFindRecursive([1, 100], fn, tol);
   return (a + b) / 2;
 };

@@ -8,6 +8,8 @@ import Page from "./Page";
 import ViewModel from "./ViewModel";
 import { Location } from "../model/Location";
 import Link from "../model/Link";
+import { fitScreen } from "./utils/fitScreen";
+import Rectangle from "./utils/Rectangle";
 
 const xs = [1, 11, 21, 31, 41, 51, 61, 71, 81, 91];
 const ys = [10, 30];
@@ -133,6 +135,18 @@ const createLayout = (
   parent: HTMLElement
 ) => {
   console.log(model.show());
+  const vw = Math.max(
+    document.documentElement.clientWidth || 0,
+    window.innerWidth || 0
+  );
+  const vh = Math.max(
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
+  );
+  const screen = fitScreen(new Rectangle(vw, vh));
+  console.log(`width:${vw}\nheight:${vh}`);
+  console.log(screen);
+  console.log(`width:${screen.width()}\nheight:${screen.height()}`);
   const { stock, discard, foundation, tableau } = model;
   //stock
   {

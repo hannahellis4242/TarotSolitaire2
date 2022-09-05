@@ -1,5 +1,6 @@
 import Rectangle from "./Rectangle";
 
 export const screenSizeError = (target: Rectangle, actual: Rectangle) => {
-  return target.area() - actual.area();
+  const x = target.area() - actual.area();
+  return x * x;
 };

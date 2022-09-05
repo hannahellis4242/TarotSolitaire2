@@ -21,6 +21,6 @@ export default class TarotParameters implements ScreenParameters {
       vertical: layoutRatio.vertical * height,
     };
     this.card = { width: cardWidth, height, overlap, spacing: cardSpacing };
-    this.layout.spacing = layoutSpacing;
+    this.layout = { spacing: layoutSpacing };
   }
 }
