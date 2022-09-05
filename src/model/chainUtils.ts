@@ -59,6 +59,12 @@ export const forEachCardInChain = (fn: (card: Card) => void, link?: Link) => {
   }
 };
 
+export const cardList = (link?: Link) => {
+  const list: Card[] = [];
+  forEachCardInChain((card) => list.push(card), link);
+  return list;
+};
+
 export const reverseChain = (link?: Link): Link | undefined => {
   if (link) {
     const parent = link.parent;

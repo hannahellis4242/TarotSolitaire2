@@ -1,7 +1,12 @@
 import random from "random";
 import seedrandom from "seedrandom";
 import Card from "../model/Card";
-import { chainDepth, forEachCardInChain, lastChild } from "../model/chainUtils";
+import {
+  cardList,
+  chainDepth,
+  forEachCardInChain,
+  lastChild,
+} from "../model/chainUtils";
 import { createAllCards, shuffle } from "../model/Deck";
 import Layout, { populate } from "../model/Layout";
 import Page from "./Page";
@@ -175,7 +180,8 @@ const createLayout = (
   {
     foundation.forEach((x, i) => {
       const div = document.createElement("div");
-      div.id = `foundation-${i}`;
+      div.id = `foundation`;
+      div.classList.add(`index-${i}`);
       const last = lastChild(x);
       const location = createLocation(last, x.location(), i, grid, () => {});
       div.appendChild(location);
@@ -184,13 +190,23 @@ const createLayout = (
   }
   //tableau
   {
-    tableau.forEach((x, i) => {
+    tableau.forEach((stack, i) => {
       const div = document.createElement("div");
-      div.id = `tableau-${i}`;
-      forEachCardInChain((card) => {
-        const location = createLocation(card, x.location(), i, grid, () => {});
+      div.id = `tableau`;
+      div.classList.add(`index-${i}`);
+      const cards = cardList(stack);
+      cards.forEach((card, j) => {
+        const location = createLocation(
+          card,
+          stack.location(),
+          i,
+          grid,
+          () => {}
+        );
+        location.style.gridRow = `${j + 1}`;
+        location.style.gridColumn = "1";
         div.appendChild(location);
-      }, x);
+      });
       parent.appendChild(div);
     });
   }
